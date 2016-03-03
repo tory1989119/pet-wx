@@ -25,7 +25,7 @@ public class AccessTokenJob {
 	
 	//轮询过期的订单
 	public void execute() {
-		String grant_type = WxConsts.GRANT_TYPE;
+		String grant_type = WxConsts.TOKEN_GRANT_TYPE;
 		String appid = Configuration.getGlobalMsg("appid");
 		String secret = Configuration.getGlobalMsg("secret");
 		JsonObject jo = wxClient.tokenQuery(grant_type, appid, secret);

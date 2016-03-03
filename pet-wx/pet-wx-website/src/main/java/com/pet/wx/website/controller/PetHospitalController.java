@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pet.wx.common.enums.ErrorCode;
+import com.pet.wx.db.dto.BaseResponseDto;
 import com.pet.wx.db.model.WxMetarialInfo;
 import com.pet.wx.website.service.PetHospitalService;
 
@@ -28,6 +31,8 @@ public class PetHospitalController {
 	private final String SCHOOL_PAGE = "school"; //宠物学堂
 	private final String TEAM_PAGE = "team"; //医疗团队
 	private final String CONTACT_PAGE = "contact"; //联系我们
+	
+	private final String RESERVATION_PAGE = "reservation"; //预约
 	
 	/**
 	 * 跳转到医院介绍
@@ -93,6 +98,37 @@ public class PetHospitalController {
 	@RequestMapping(value = "contactPage.do", method = RequestMethod.GET)
 	public String contactPage(){
 		return CONTACT_PAGE;
+	}
+	
+	/**
+	 * 跳转到预约
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "reservationPage.do", method = RequestMethod.GET)
+	public String reservationPage(HttpServletRequest request,String code){
+		petHospitalService.authorize(code);
+		return RESERVATION_PAGE;
+	}
+	
+	/**
+	 * 获取授权信息
+	 * 
+	 * @param searchDto
+	 * @return
+	 */
+	@RequestMapping(value = "authorize.do", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public BaseResponseDto<Object> authorize(String code) {
+		BaseResponseDto<Object> br = new BaseResponseDto<Object>();
+		try {
+			br.setContent(petHospitalService.authorize(code));
+		} catch (Exception e) {
+			logger.error("PetHospitalController.authorize", e);
+			br.setErrorCode(ErrorCode.sys_error.getCode());
+			br.setContent(ErrorCode.sys_error.getDes());
+		}
+		return br;
 	}
 	
 }

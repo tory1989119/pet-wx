@@ -29,6 +29,20 @@ public class WxClient {
 		JsonObject jo = GsonUtils.fromJson(HttpClientUtils.get(url,"UTF-8"), JsonObject.class,true);
 		return jo;
 	}
+	
+	/**
+	 * 网页授权
+	 * @param grant_type
+	 * @param appid
+	 * @param secret
+	 * @param code
+	 * @return
+	 */
+	public JsonObject authorize(String grant_type,String appid,String secret,String code){
+		String url = String.format( WxConsts.WY_TOKEN_QUERY_URL, appid,secret,code,grant_type);
+		JsonObject jo = GsonUtils.fromJson(HttpClientUtils.get(url,"UTF-8"), JsonObject.class,true);
+		return jo;
+	}
 	/**
 	 * 获取用户基本信息
 	 * @param openid

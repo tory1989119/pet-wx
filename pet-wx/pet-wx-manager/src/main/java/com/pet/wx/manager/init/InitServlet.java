@@ -31,7 +31,7 @@ public class InitServlet extends HttpServlet {
         InitServlet.contextPath = prefix;
         InitServlet.classPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         
-        String grant_type = WxConsts.GRANT_TYPE;
+        String grant_type = WxConsts.TOKEN_GRANT_TYPE;
 		String appid = Configuration.getGlobalMsg("appid");
 		String secret = Configuration.getGlobalMsg("secret");
 		ServletContext servletContext = this.getServletContext();

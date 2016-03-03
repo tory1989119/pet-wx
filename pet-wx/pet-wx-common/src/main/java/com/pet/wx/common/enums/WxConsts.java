@@ -4,6 +4,9 @@ public interface WxConsts {
 
 	/** 获取token的URL路径 */
 	public static final String TOKEN_QUERY_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=%s&appid=%s&secret=%s";
+	
+	/** 获取网页token的URL路径 */
+	public static final String WY_TOKEN_QUERY_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=%s";
 
 	/** 用户管理-分组管理-新增分组 */
 	public static final String GROUP_CREATE_URL = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token=%s";
@@ -65,6 +68,8 @@ public interface WxConsts {
 	public static final String DKF_TYPE= "transfer_customer_service";
 	
 	/** 获取access_token填写client_credential*/
-	public static final String GRANT_TYPE = "client_credential";
+	public static final String TOKEN_GRANT_TYPE = "client_credential";
+	/** 获取access_token填写client_credential*/
+	public static final String WY_GRANT_TYPE = "authorization_code";
 
 }
