@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.wx.db.dao.WxKfDao">
+	<!-- 插入信息 -->
+	<insert id="insertWxKf" parameterType="WxKfInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO WX_KF_INFO (KF_ID,KF_ACCOUNT,NICKNAME,PASSWORD,KF_HEADIMGURL)
+		VALUES (#{kfId},#{kfAccount},#{nickname},#{password},#{kfHeadimgurl})
+	</insert>
+	
+	<!-- 查询客服列表 -->
+	<select id="queryWxKf" parameterType="SysSearchDto" resultType="WxKfInfo" >
+		SELECT 
+		ID id,
+		KF_ACCOUNT kfAccount,
+		NICKNAME nickname
+		FROM WX_KF_INFO
+		LIMIT #{begin},#{rows}
+	</select>
+	
+	<!-- 查询客服列表数 -->
+	<select id="countWxKf" parameterType="SysSearchDto" resultType="int" >
+		SELECT COUNT(ID) 
+		FROM WX_KF_INFO
+	</select>
+	
+	<!-- 根据id获取客服信息 -->
+	<select id="getWxKfInfo" parameterType="Long" resultType="WxKfInfo" >
+		SELECT 
+		ID id,
+		KF_ACCOUNT kfAccount,
+		NICKNAME nickname
+		FROM WX_KF_INFO
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 清空表数据 -->
+	<update id="truncateWxKf">
+		TRUNCATE WX_KF_INFO
+	</update>
+	
+	<!-- 删除客服 -->
+	<update id="deleteWxKf" parameterType="Long">
+		DELETE FROM WX_KF_INFO WHERE ID = #{id}
+	</update>
+	
+	<!-- 更新客服 -->
+	<update id="updateWxKf" parameterType="WxKfInfo">
+		UPDATE WX_KF_INFO SET 
+		KF_ACCOUNT = #{kfAccount},
+		NICKNAME = #{nickname},
+		PASSWORD = #{password}
+		WHERE ID = #{id}
+	</update>
+	
+</mapper>

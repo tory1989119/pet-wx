@@ -1,0 +1,45 @@
+@charset "utf-8";
+html,body {
+    width: 100%;
+    height: 100%;
+    background: url(../images/loginBg.jpg) no-repeat 0 0;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+.namefc{
+	color: #666;
+}
+.loginMain{
+    width: 960px;
+    height: 50%;
+    min-width: 908px;
+    min-height: 436px;
+    margin: auto;
+  	position: absolute;
+  	top: 0; left: 0; bottom: 0; right: 0;
+}
+.loginMain .loginBgbody{
+	width: 100%;
+    height: 100%;
+    background: url(../images/whitleBg.png) no-repeat 0 0;
+}
+.loginMain .loginBgbody .loginLogo{
+    top: 70px;
+    left: 150px;
+}
+.loginMain .loginBgbody .loginUsr{
+	right: 130px;
+    top: 80px;
+}
+.loginApp{
+	background-color: #2ac0ce;
+	padding: 5px 15px;
+}
+.cancelLogin{
+	color: #9d9d9d;
+}
+
+
+

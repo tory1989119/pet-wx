@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.wx.db.dao.WxMenuDao">
+	<!-- 插入信息 -->
+	<insert id="insertWxMenu" parameterType="WxMenuInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO WX_MENU_INFO (NAME,TYPE,MENU_KEY,URL,MEDIA_ID,FID,CREATE_TIME)
+		VALUES (#{name},#{type},#{menuKey},#{url},#{mediaId},#{fid},#{createTime})
+	</insert>
+	
+	<!-- 根据ID获取微信菜单信息 -->
+	<select id="getWxMenuInfoById" parameterType="string" resultType="WxMenuInfo" >
+		SELECT 
+		ID id,
+		NAME name,
+		TYPE type,
+		MENU_KEY menuKey,
+		URL url,
+		MEDIA_ID mediaId,
+		FID fid,
+		CREATE_TIME createTime
+		FROM WX_MENU_INFO
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 查询微信一级菜单 -->
+	<select id="queryOneLevelWxMenu" resultType="WxMenuInfo" >
+		SELECT 
+		ID id,
+		NAME name,
+		TYPE type,
+		MENU_KEY menuKey,
+		URL url,
+		MEDIA_ID mediaId,
+		FID fid,
+		CREATE_TIME createTime
+		FROM WX_MENU_INFO
+		WHERE FID IS NULL
+	</select>
+	
+	<!-- 查询微信一级菜单数 -->
+	<select id="countOneLevelWxMenu" resultType="Int" >
+		SELECT 
+		COUNT(ID)
+		FROM WX_MENU_INFO
+		WHERE FID IS NULL
+	</select>
+	
+	<!-- 查询微信二级菜单 -->
+	<select id="querySecondLevelWxMenu" parameterType="Long" resultType="WxMenuInfo" >
+		SELECT 
+		ID id,
+		NAME name,
+		TYPE type,
+		MENU_KEY menuKey,
+		URL url,
+		MEDIA_ID mediaId,
+		FID fid,
+		CREATE_TIME createTime
+		FROM WX_MENU_INFO
+		WHERE FID = #{fid}
+	</select>
+	
+	<!-- 查询微信二级菜单数 -->
+	<select id="countSecondLevelWxMenu" parameterType="Long" resultType="Int" >
+		SELECT 
+		COUNT(ID)
+		FROM WX_MENU_INFO
+		WHERE FID = #{fid}
+	</select>
+	
+	<!-- 删除菜单 -->
+	<update id="deleteWxMenu" parameterType="String">
+		DELETE FROM WX_MENU_INFO WHERE ID = #{id} OR FID = #{id}
+	</update>
+	
+	<!-- 修改菜单 -->
+	<update id="updateWxMenu" parameterType="WxMenuInfo">
+		UPDATE WX_MENU_INFO SET
+		NAME = #{name},
+		TYPE = #{type},
+		MENU_KEY = #{menuKey},
+		URL = #{url},
+		MEDIA_ID = #{mediaId}
+		where ID = #{id}
+	</update>
+</mapper>

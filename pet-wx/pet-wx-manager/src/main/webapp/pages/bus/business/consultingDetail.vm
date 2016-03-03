@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/consulting.css">
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+</head>
+<body>
+
+		<div class="main">  
+        <div class="main_inner clearfix">  
+            <div class="panel"></div>  
+            <div id="chatArea" class="box chat">  
+                <div class="box_hd"></div>  
+                <div class="box_bd" id="messageList"> 
+					#foreach($consultingDetail in $consultingDetailList)
+            			#if($consultingDetail.senderType == 2)
+            				<div class="message me">  
+                                <img class="avatar" src="$consultingDetail.llogoUrl" />  
+                                <div class="content">                          
+                                    <div class="bubble bubble_default right">  
+                                        <div class="bubble_cont">  
+											#if($consultingDetail.type == 1)
+												<div class="plain">
+                                                    <pre>$consultingDetail.content</pre>   
+                                                </div>
+											#elseif($consultingDetail.type == 3)
+												<div class="picture audio_cont pr">  
+                                                    <img class="msg-img" src="../../images/audioLeft.png"> 
+                                                    <audio src="$consultingDetail.content" controls="controls" class="audio pa"></audio>  
+                                                </div>
+											#end
+                                        </div>  
+                                    </div>  
+                                </div>  
+                            </div>
+						#elseif($consultingDetail.senderType == 1)
+            				<div class="message">  
+                                <img class="avatar" src="$consultingDetail.tlogoUrl" />  
+                                <div class="content">  
+                                    <div class="bubble bubble_default left">  
+                                        <div class="bubble_cont">
+											#if($consultingDetail.type == 1)
+												<div class="plain">
+                                                    <pre>$consultingDetail.content</pre>   
+                                                </div>
+											#elseif($consultingDetail.type == 3)
+												<div class="picture audio_cont pr">  
+                                                    <img class="msg-img" src="../../images/audioLeft.png"> 
+                                                    <audio src="$consultingDetail.content" controls="controls" class="audio pa"></audio>  
+                                                </div>
+											#end
+                                        </div>  
+                                    </div>  
+                                </div>  
+                            </div>
+            			#end
+            		#end
+                     
+					
+                </div>  
+               
+            </div>  
+        </div>  
+    </div> 
+
+<script>
+	$('.audio_cont').click(function(event) {
+            var obj=$(this);
+            var audio=obj.children('audio')[0];
+            
+            if(audio.paused){
+                audio.play();
+                var time = audio.duration;
+            		obj.parents('.bubble').removeClass('bubble_default').addClass('bubble_giry');
+            		setTimeout(function(){
+                		obj.parents('.bubble').removeClass('bubble_giry').addClass('bubble_default')
+            		},time*1000);
+            }else{
+              obj.parents('.bubble').removeClass('bubble_giry').addClass('bubble_default');
+            	audio.pause();
+            }
+        });
+</script>
+</body>
+</html>

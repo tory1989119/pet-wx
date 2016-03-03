@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/extend/layer.ext.js"></script>
+
+</head>
+<body>
+<div class="mainSemt">
+	<div class="navigateItem pl20">
+		业务审核>司机审核>司机详情
+	</div>
+	<div class="rightMain p10">
+		<table width="100%" class="detailBus">
+			<tr>
+				<td>手机号：$truckOwnerInfo.phoneNumber</td>
+				<td>姓  名：$truckOwnerInfo.name</td>
+				#if($truckOwnerInfo.address != $null)
+					<td>居住地：$truckOwnerInfo.address</td>
+				#else
+					<td>居住地：无</td>
+				#end
+				#if($truckOwnerInfo.logisticsName != $null)
+					<td>所在物流：$truckOwnerInfo.logisticsName</td>
+				#else
+					<td>所在物流：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckOwnerInfo.sex == $null)
+					<td>性  别：无</td>
+				#elseif($truckOwnerInfo.sex == '1')
+					<td>性  别：男</td>
+				#else
+					<td>性  别：女</td>
+				#end
+				#if($truckOwnerInfo.birthday != $null)
+					<td>生日：$truckOwnerInfo.birthday</td>
+				#else
+					<td>生日：无</td>
+				#end
+				<td>驾  龄：$truckOwnerInfo.experience年</td>
+				#if($truckOwnerInfo.licensePlate != $null)
+					<td>车牌号：$truckOwnerInfo.licensePlate</td>
+				#else
+					<td>车牌号：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckOwnerInfo.logisticsName != $null)
+					<td colspan="2">公司全称：$truckOwnerInfo.logisticsName</td>
+				#else
+					<td colspan="2">公司全称：无</td>
+				#end
+				#if($truckOwnerInfo.logisticsAddress != $null)
+					<td colspan="2">公司地址：$truckOwnerInfo.logisticsAddress</td>
+				#else
+					<td colspan="2">公司地址：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckOwnerInfo.idCardNumber != $null)
+					<td colspan="2">身份证：<span class="redfc">$truckOwnerInfo.idCardNumber</span> <span class="fr bluefc" onclick="showMorePicture('$truckOwnerInfo.idCarePictureUrl1','$truckOwnerInfo.idCarePictureUrl2','$truckOwnerInfo.idCarePictureUrl3');">点击查看</span></td>
+				#else
+					<td colspan="2">身份证：无</td>
+				#end
+				#if($truckOwnerInfo.driverLicenseNumber != $null)
+					<td colspan="2">驾驶证：<span class="redfc">$truckOwnerInfo.driverLicenseNumber</span> <span class="fr bluefc" onclick="showPicture('$truckOwnerInfo.driverLicensePictureUrl');">点击查看</span></td>
+				#else
+					<td colspan="2">驾驶证：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckOwnerInfo.vehicleType != $null)
+					<td colspan="2">车辆类型：
+						#foreach($truck in $truckType)
+							#if($truck.key == $truckOwnerInfo.vehicleType)
+								$truck.value
+							#end
+						#end
+						&nbsp;
+						#foreach($truckLength in $truckLengthType)
+							#if($truckLength.key == $truckOwnerInfo.vehicleLengthType)
+								$truckLength.value
+							#end
+						#end
+						&nbsp;						
+						#foreach($truckWeight in $truckWeightType)
+							#if($truckWeight.key == $truckOwnerInfo.vehicleWeightType)
+								$truckWeight.value
+							#end
+						#end
+					</td>
+				#else
+					<td colspan="2">车辆类型：无</td>
+				#end
+				
+				#if($truckOwnerInfo.licensePictureUrl != $null)
+					<td>车辆行驶证：<span class="fr bluefc" onclick="showPicture('$truckOwnerInfo.licensePictureUrl');">点击查看</span></td>
+				#else
+					<td>车辆行驶证：无</td>
+				#end
+				
+				
+				#if($truckOwnerInfo.insurance != $null)
+					<td>投保情况：$truckOwnerInfo.insurance万</td>
+				#else
+					<td>投保情况：无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4">车辆照片：</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<img src="$truckOwnerInfo.pictureUrl" height="100px" width="100px" />
+				</td>
+			</tr>
+		</table>
+		<div class="tc lh30 mt20">
+    		<span class="btnBlue Blackdetail whitefc cursor" onclick="notPass($truckOwnerInfo.examineId);">不通过</span>　　　　　　　
+    		<span class="btnBlue Blackdetail whitefc cursor" onclick="pass($truckOwnerInfo.examineId);">审核通过</span>
+    	</div>
+	</div>
+</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口并刷新页面
+	function closeIf(){
+		parent.search(parseInt(parent.$('.active').attr('jp-data')));
+        parent.layer.close(index);
+	}
+	
+	function showMorePicture(url1,url2,url3){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url1},{"src": url2},{"src": url3}]
+                }
+    	});
+	}
+	
+	function showPicture(url){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url}]
+                }
+    	});
+	}
+	function pass(id){
+		$.ajax({
+				url: "examinePass.htm",
+				datatype: 'json',
+				type: "post",
+				data: {
+					id:id
+				},
+				success: function (data) {
+					if(data.flag == '1' && data.errorCode == '10000') {
+						layer.alert('审核成功！', {
+							icon: 6
+						},function(index){
+							closeIf();
+						});
+					}else{
+						layer.alert('系统错误！', {icon: 6});
+						return;
+					}
+				}
+			});
+	}
+	function notPass(id){
+		layer.prompt({title: '为什么不通过？', formType: 2}, function(reason){
+			if(reason == null || reason == ''){
+				layer.alert('请输入不通过的原因！', {icon: 6});
+				return;
+			}
+			$.ajax({
+				url: "examineNotPass.htm",
+				datatype: 'json',
+				type: "post",
+				data: {
+					id:id,
+					reason:reason
+				},
+				success: function (data) {
+					if(data.flag == '1' && data.errorCode == '10000') {
+						layer.alert('审核成功！', {
+							icon: 6
+						},function(index){
+							closeIf();
+						});
+					}else{
+						layer.alert('系统错误！', {icon: 6});
+						return;
+					}
+				}
+			});
+			
+		});
+	}
+</script>
+</body>
+</html>

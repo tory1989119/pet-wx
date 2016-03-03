@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pet.wx.db.dao.SysManagerDAO">
+	
+	<!-- 根据账号和密码获取管理员信息 -->
+	<select id="getSysUserByUsernameAndPwd" parameterType="SysUserInfo" resultType="SysUserInfo" >
+		SELECT ID id,NICK_NAME nickName,SEX sex,AGE age,ADDRESS address,PHONE_NUMBER phoneNumber,USERNAME username,PASSWORD password ,IS_DELETED isDeleted,CREATE_TIME createTime FROM SYS_USER_INFO
+		WHERE USERNAME = #{username} AND PASSWORD = #{password} AND IS_DELETED = '0'
+	</select>
+	
+	<!-- 插入管理员信息 -->
+	<insert id="insertSysUser" parameterType="SysUserInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SYS_USER_INFO (NICK_NAME,SEX,AGE,ADDRESS,PHONE_NUMBER,USERNAME,PASSWORD,IS_DELETED,CREATE_TIME)
+		VALUES (#{nickName},#{sex},#{age},#{address},#{phoneNumber},#{username},#{password},'0',NOW())
+	</insert>
+	
+	<!-- 修改管理员信息 -->
+	<update id="updateSysUser" parameterType="SysUserInfo">
+		UPDATE SYS_USER_INFO SET ID=#{id}
+		<if test="nickName != null and nickName != ''"> ,NICK_NAME = #{nickName}</if>
+		<if test="sex != null and sex != ''"> ,SEX = #{sex}</if>
+		<if test="age != null and age != ''"> ,AGE = #{age}</if>
+		<if test="address != null and address != ''"> ,ADDRESS = #{address}</if>
+		<if test="phoneNumber != null and phoneNumber != ''"> ,PHONE_NUMBER = #{phoneNumber}</if>
+		<if test="username != null and username != ''"> ,USERNAME = #{username}</if>
+		<if test="password != null and password != ''"> ,PASSWORD = #{password}</if>
+		<if test="isDeleted != null and isDeleted != ''"> ,IS_DELETED = #{isDeleted}</if>
+		where ID = #{id}
+	</update>
+	
+	<!-- 根据ID获取管理员信息 -->
+	<select id="getSysUserById" parameterType="string" resultType="SysUserInfo" >
+		SELECT ID id,NICK_NAME nickName,SEX sex,AGE age,ADDRESS address,PHONE_NUMBER phoneNumber,USERNAME username,PASSWORD password ,IS_DELETED isDeleted,CREATE_TIME createTime FROM SYS_USER_INFO
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 查询管理员列表 -->
+	<select id="querySysUser" parameterType="SysSearchDto" resultType="SysUserInfo" >
+		SELECT ID id,NICK_NAME nickName,SEX sex,AGE age,ADDRESS address,PHONE_NUMBER phoneNumber,USERNAME username,PASSWORD password ,IS_DELETED isDeleted,CREATE_TIME createTime FROM SYS_USER_INFO
+		WHERE IS_DELETED = '0'
+		
+		<if test="phoneNumber != null and phoneNumber != ''">
+			AND PHONE_NUMBER = #{phoneNumber}
+		</if>
+		
+		<if test="nickName != null and nickName != ''">
+			AND NICK_NAME LIKE CONCAT('%',#{nickName},'%')
+		</if>
+		
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') >= str_to_date(#{startDate},'%Y-%m-%d') 
+			]]>
+		</if>
+		
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') <= str_to_date(#{endDate},'%Y-%m-%d')
+			]]>
+		</if>
+		
+		LIMIT #{begin},#{rows}
+	</select>
+	
+	<!-- 查询管理员列表数 -->
+	<select id="countSysUser" parameterType="SysSearchDto" resultType="int" >
+		SELECT COUNT(ID) 
+		FROM SYS_USER_INFO
+		WHERE 1=1 AND IS_DELETED = '0'
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') >= str_to_date(#{startDate},'%Y-%m-%d') 
+			]]>
+		</if>
+		
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') <= str_to_date(#{endDate},'%Y-%m-%d')
+			]]>
+		</if>
+	</select>
+	
+	<!-- 获取菜单列表 -->
+	<select id="querySysMenu" parameterType="map" resultType="SysMenuInfo" >
+		SELECT ID id,MENU_ID menuId,MENU_NAME menuName,URL url,FID fid,GRADE grade,SORT sort,IS_DELETED isDeleted,CREATE_TIME createTime FROM SYS_MENU_INFO
+		WHERE GRADE = #{grade} AND IS_DELETED = '0' 
+		
+		<if test="fid != null and fid != ''">
+			<![CDATA[
+				AND FID = #{fid}
+			]]>
+		</if>
+		ORDER BY sort
+	</select>
+</mapper>

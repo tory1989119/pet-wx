@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/extend/layer.ext.js"></script>
+
+</head>
+<body>
+<div class="mainSemt">
+	<div class="navigateItem pl20">
+		物流管理>车辆管理>车辆详情
+	</div>
+	<div class="rightMain p10">
+		<table width="100%" class="detailBus">
+			<tr>
+				<td>手机号：$truckInfo.phoneNumber</td>
+				<td>姓  名：$truckInfo.ownerName</td>
+				#if($truckInfo.address != $null)
+					<td>居住地：$truckInfo.address</td>
+				#else
+					<td>居住地：无</td>
+				#end
+				#if($truckInfo.logisticsName != $null)
+					<td>所在物流：$truckInfo.logisticsName</td>
+				#else
+					<td>所在物流：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckInfo.sex == $null)
+					<td>性  别：无</td>
+				#elseif($truckInfo.sex == '1')
+					<td>性  别：男</td>
+				#else
+					<td>性  别：女</td>
+				#end
+				#if($truckInfo.birthday != $null)
+					<td>生日：$truckInfo.birthday</td>
+				#else
+					<td>生日：无</td>
+				#end
+				<td>驾  龄：$truckInfo.experience年</td>
+				#if($truckInfo.licensePlate != $null)
+					<td>车牌号：$truckInfo.licensePlate</td>
+				#else
+					<td>车牌号：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckInfo.logisticsName != $null)
+					<td colspan="2">公司全称：$truckInfo.logisticsName</td>
+				#else
+					<td colspan="2">公司全称：无</td>
+				#end
+				#if($truckInfo.logisticsAddress != $null)
+					<td colspan="2">公司地址：$truckInfo.logisticsAddress</td>
+				#else
+					<td colspan="2">公司地址：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckInfo.idCardNumber != $null)
+					<td colspan="2">身份证：<span class="redfc">$truckInfo.idCardNumber</span> <span class="fr bluefc" onclick="showMorePicture('$truckInfo.idCarePictureUrl1','$truckInfo.idCarePictureUrl2','$truckInfo.idCarePictureUrl3');">点击查看</span></td>
+				#else
+					<td colspan="2">身份证：无</td>
+				#end
+				#if($truckInfo.driverLicenseNumber != $null)
+					<td colspan="2">驾驶证：<span class="redfc">$truckInfo.driverLicenseNumber</span> <span class="fr bluefc" onclick="showPicture('$truckInfo.driverLicensePictureUrl');">点击查看</span></td>
+				#else
+					<td colspan="2">驾驶证：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($truckInfo.vehicleType != $null)
+					<td colspan="2">车辆类型：
+						#foreach($truck in $truckType)
+							#if($truck.key == $truckInfo.vehicleType)
+								$truck.value
+							#end
+						#end
+						&nbsp;
+						#foreach($truckLength in $truckLengthType)
+							#if($truckLength.key == $truckInfo.vehicleLengthType)
+								$truckLength.value
+							#end
+						#end
+						&nbsp;						
+						#foreach($truckWeight in $truckWeightType)
+							#if($truckWeight.key == $truckInfo.vehicleWeightType)
+								$truckWeight.value
+							#end
+						#end
+					</td>
+				#else
+					<td colspan="2">车辆类型：无</td>
+				#end
+				
+				#if($truckInfo.licensePictureUrl != $null)
+					<td>车辆行驶证： <span class="fr bluefc" onclick="showPicture('$truckInfo.licensePictureUrl');">点击查看</span></td>
+				#else
+					<td>车辆行驶证：无</td>
+				#end
+				
+				
+				#if($truckInfo.insurance != $null)
+					<td>投保情况：$truckInfo.insurance万</td>
+				#else
+					<td>投保情况：无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4">车辆照片：</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<img src="$truckInfo.pictureUrl" height="100px" width="100px" />
+				</td>
+			</tr>
+		</table>
+		<div class="tc lh30 mt20">
+    		<span class="btnBlue Blackdetail whitefc cursor" onclick="closeIf();">关闭</span>
+    	</div>
+	</div>
+</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口并刷新页面
+	function closeIf(){
+        parent.layer.close(index);
+	}
+	
+	function showMorePicture(url1,url2,url3){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url1},{"src": url2},{"src": url3}]
+                }
+    	});
+	}
+	
+	function showPicture(url){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url}]
+                }
+    	});
+	}
+</script>
+</body>
+</html>

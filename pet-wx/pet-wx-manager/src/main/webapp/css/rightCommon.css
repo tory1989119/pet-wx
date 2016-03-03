@@ -1,0 +1,203 @@
+@charset "utf-8";
+/* CSS Document */
+.lh30{
+	line-height: 30px;
+}
+.lh35{
+	line-height: 35px;
+}
+.btnBlue{
+	background: #3eabe7;
+    border-radius: 5px;
+}
+.btnGriy{
+	background: #ebeceb;
+    border-radius: 5px;
+}
+.autoCenter{
+	margin: 0 auto;
+}
+.border0{
+	border:none !important;
+}
+.p0 {
+    padding: 0px !important;
+}
+.wp80{
+	width: 80%;
+}
+.wp82{
+	width: 82%;
+}
+.wp16{
+	width: 16%;
+}
+.wp40{
+	width: 40%;
+}
+
+
+.mainSemt .navigateItem{
+	height: 45px;
+	line-height: 45px;
+	border: 1px #e4e4e4 solid;
+}
+.mainSemt .navigateItem .blakBtn{
+	background-color: #3eabe7;
+    padding: 2px 15px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+}
+.mainSemt .navigateItem .blakBtn a{
+	color: #fff;
+}
+.mainSemt .search{
+	padding: 10px;
+	background: #f5f5f5;
+	border-left: 1px #e4e4e4 solid;
+	border-right:  1px #e4e4e4 solid;
+	border-bottom:  1px #e4e4e4 solid;
+}
+.mainSemt .search ul{
+	width: 100%;
+}
+.mainSemt .search ul li{
+	float: left;
+	margin-right: 10px;
+    line-height: 30px;
+}
+.mainSemt .search ul li.fr{
+	float: right;
+}
+.mainSemt .search .btnSearch{
+	padding: 0px 10px;
+    background: #3eabe7;
+    border-radius: 5px;
+}
+.mainSemt .search .select145{
+	width: 145px;
+}
+.mainSemt .search .text250{
+	width: 250px;
+	padding:  0px 5px;;
+}
+.mainSemt .search .selec110{
+	width: 110px;
+	padding:  0px 5px;
+}
+.mainSemt .rightMain table{
+	border-top: 1px #e4e4e4 solid;
+	border-left: 1px #e4e4e4 solid;
+}
+.mainSemt .rightMain table tr{
+	height: 38px;
+}
+.mainSemt .rightMain table tr td{
+	border-right: 1px #e4e4e4 solid;
+	border-bottom: 1px #e4e4e4 solid;
+}
+
+table.detailBus tr td{
+	padding: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********index************/
+#rightIndex  li{
+	width: 30%;
+	margin-left:2.5%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #e4e4e4;
+	text-align: center;
+	font-size: 14px;
+	float: left;
+	line-height: 40px;
+}
+#rightIndex  li h2{
+	height: 40px;
+	background-color: #f8f8f8;
+}
+
+
+/************order*****************/
+
+.navOrder{
+	border-left: 1px solid #e4e4e4;
+	border-bottom: 1px solid #e4e4e4;
+}
+.navOrder ul li{
+	border-right: 1px solid #e4e4e4;
+	float: left;
+	padding: 15px 28px;
+	cursor: pointer;
+}
+.navOrder ul li.active{
+	background-color: #f8f8f8;
+}
+.listRecord:nth-child(odd){
+	background-color: #e8f2ff;
+}
+
+
+.listRecord ul.listNan {
+	height: 45px;
+	line-height: 45px;
+	border-bottom: 1px solid #e4e4e4;
+}
+.listRecord ul.listNan li{
+	float: left;
+	margin:0 20px 0 30px;
+}
+.listRecord .listImg .feedback{
+	width:40px;
+	height: 18px;
+	padding: 2px;
+	font-size: 12px;
+	background-color: #fff;
+	bottom: 0px;
+	right: 0px;
+}
+.listRecord .btnDetails {
+    padding: 5px 10px;
+    background: #3eabe7;
+    border-radius: 5px;
+}
+
+
+
+/*********blacklist*********/
+.rightMain .btndetail {
+    padding: 2px 12px;
+}
+.rightMain .informationBody{
+	border: 1px solid #e4e4e4;
+}
+.rightMain .informationBody .inforTop{
+	border-bottom: 1px solid #e4e4e4;
+}
+.rightMain .informationBody .detailCon{
+	width: 50%;
+	float: left;
+	margin:15px 0;
+}
+.rightMain .informationBody .contentBlack{
+	width: 97%;
+    height: 185px;
+    border: none;
+}
+.rightMain .Blackdetail{
+	padding: 5px 12px;
+}

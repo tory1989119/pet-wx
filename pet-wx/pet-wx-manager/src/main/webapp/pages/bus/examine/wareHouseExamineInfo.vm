@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/extend/layer.ext.js"></script>
+
+</head>
+<body>
+<div class="mainSemt">
+	<div class="navigateItem pl20">
+		业务审核>仓储审核>仓储详情
+	</div>
+	<div class="rightMain p10">
+		<table width="100%" class="detailBus">
+			<tr>
+				<td>仓储名：$wareHouseInfo.name</td>
+				<td>面积：$wareHouseInfo.acreage</td>
+				#if($wareHouseInfo.address != $null)
+					<td>仓储地址：$wareHouseInfo.province $wareHouseInfo.city $wareHouseInfo.area $wareHouseInfo.address</td>
+				#else
+					<td>仓储地址：无</td>
+				#end
+				#if($wareHouseInfo.logisticsName != $null)
+					<td>物流公司：$wareHouseInfo.logisticsName</td>
+				#else
+					<td>物流公司：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($wareHouseInfo.contact != $null)
+					<td>联系人：$wareHouseInfo.contact</td>
+				#else
+					<td>联系人：无</td>
+				#end
+				
+				#if($wareHouseInfo.phoneNumber != $null)
+					<td>联系人电话：$wareHouseInfo.phoneNumber</td>
+				#else
+					<td>联系人电话：无</td>
+				#end
+				<td>仓储固定电话：$wareHouseInfo.areaCode - $wareHouseInfo.landlineNumber</td>
+				#if($wareHouseInfo.type != $null)
+					<td>仓储类型：
+						#foreach($wareHouse in $wareHouseType)
+							#if($wareHouse.key == $wareHouseInfo.type)
+								$wareHouse.value
+							#end
+						#end
+					</td>
+				#else
+					<td>仓储类型：无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4">仓储简介：</td>
+			</tr>
+			<tr>
+				<td colspan="4">$wareHouseInfo.introduction</td>
+			</tr>
+			<tr>
+				<td colspan="4">仓储照片：</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<img src="$wareHouseInfo.pictrueUrl" height="100px" width="100px" />
+				</td>
+			</tr>
+		</table>
+		<div class="tc lh30 mt20">
+    		<span class="btnBlue Blackdetail whitefc cursor" onclick="notPass($wareHouseInfo.examineId);">不通过</span>　　　　　　　
+    		<span class="btnBlue Blackdetail whitefc cursor" onclick="pass($wareHouseInfo.examineId);">审核通过</span>
+    	</div>
+	</div>
+</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口并刷新页面
+	function closeIf(){
+        parent.search(parseInt(parent.$('.active').attr('jp-data')));
+        parent.layer.close(index);
+	}
+		function pass(id){
+		$.ajax({
+				url: "examinePass.htm",
+				datatype: 'json',
+				type: "post",
+				data: {
+					id:id
+				},
+				success: function (data) {
+					if(data.flag == '1' && data.errorCode == '10000') {
+						layer.alert('审核成功！', {
+							icon: 6
+						},function(index){
+							layer.close(index);
+							closeIf(index);
+						});
+					}else{
+						layer.alert('系统错误！', {icon: 6});
+						return;
+					}
+				}
+			});
+	}
+	function notPass(id){
+		layer.prompt({title: '为什么不通过？', formType: 2}, function(reason){
+			if(reason == null || reason == ''){
+				layer.alert('请输入不通过的原因！', {icon: 6});
+				return;
+			}
+			$.ajax({
+				url: "examineNotPass.htm",
+				datatype: 'json',
+				type: "post",
+				data: {
+					id:id,
+					reason:reason
+				},
+				success: function (data) {
+					if(data.flag == '1' && data.errorCode == '10000') {
+						layer.alert('审核成功！', {
+							icon: 6
+						},function(index){
+							closeIf();
+						});
+					}else{
+						layer.alert('系统错误！', {icon: 6});
+						return;
+					}
+				}
+			});
+			
+		});
+	}
+</script>
+</body>
+</html>

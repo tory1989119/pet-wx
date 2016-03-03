@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/bootstrap.min.css" />
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/HtmlBox_4.0.3/browser.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/HtmlBox_4.0.3/htmlbox.colors.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/HtmlBox_4.0.3/htmlbox.styles.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/HtmlBox_4.0.3/htmlbox.syntax.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/HtmlBox_4.0.3/htmlbox.undoredomanager.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/HtmlBox_4.0.3/htmlbox.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	
+</head>
+<body onload="init();">
+<div class="mainSemt">
+	<div class="navigateItem pl20">
+		协议管理>司机版协议
+	</div>
+	<form id="mainform" method="post" action="updateAgreement.htm">
+	<div class="search">
+		<ul class="mb20 overflow">
+			<li>标题</li>
+			<li>
+				<span class="fl"><input type="text" class="form-control text250 h30" id="title" name="title" /></span>
+			</li>
+			<li>
+				<span class="btnSearch whitefc f14 mt5 clearfix cursor" onclick="save();">
+					保存
+				</span>
+			</li>
+		</ul>
+	</div>
+	<div class="rightMain tc p10">
+		<textarea  id="htmlbox_silk_icon_set_blue" name="content" runat='server'></textarea>
+		<input type="hidden" value="" name="id" id="hiddenId"/>
+	</div>
+	</form>
+</div>
+<script language="Javascript" type="text/javascript">
+var hb_silk_icon_set_blue = $("#htmlbox_silk_icon_set_blue").css("height","800px").css("width","100%").htmlbox({
+    toolbars:[
+	     [
+	     {icon:"save.png",tooltip:"保存",command:function(){save();}},
+	     "separator_dots","bold","italic","underline","strike","sub","sup","separator_dots","separator_dots",
+		 		"left","center","right","justify","separator_dots","ol","ul","indent","outdent","separator_dots"]
+	],
+	icons:"silk",
+	skin:"blue",
+	idir:"../../plugin/HtmlBox_4.0.3/images/",
+	css:"body{margin:3px;font-family:verdana;font-size:14px;}p{margin:0px;}"
+});
+
+function init(){
+	$.post(
+	      "queryAgreement.htm",{type:"2"},function (data) {
+	        if (data.flag == '1' && data.errorCode == '10000') {
+	          $('#title').val(data.content.title);
+	          $('#hiddenId').val(data.content.id);
+	          $("iframe").contents().find("body").html(data.content.content);
+			  $('#htmlbox_silk_icon_set_blue').val(data.content.content);
+	        }
+	      
+	});
+}
+
+function save(){
+	
+	$('#mainform').form('submit', {
+			url:"updateAgreement.htm", 
+			success:function(data){ 
+			   var dataa = eval("(" + data + ")");
+			   if (dataa.flag == '1' && dataa.errorCode == '10000') {
+	          		layer.alert('保存成功！', {icon: 6});
+	           } 
+			}
+		});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/extend/layer.ext.js"></script>
+
+</head>
+<body>
+<div class="mainSemt">
+				<div class="navigateItem pl20">
+					用户管理>企业管理>企业详情
+				</div>
+				<div class="rightMain p10">
+					<table width="100%" class="detailBus">
+						<tr>
+							<td colspan="4" class="tc">$logisticsInfo.name</td>
+						</tr>
+						<tr>
+							#if($logisticsInfo.companyRepresents != $null && $logisticsInfo.companyRepresents != '')
+                				<td>法人代表：$logisticsInfo.companyRepresents</td>
+            				#else
+            					<td>法人代表：无</td>
+							#end
+							#if($logisticsInfo.registerCatipal != $null && $logisticsInfo.registerCatipal != '')
+                				<td>注册资金：$logisticsInfo.registerCatipal 万</td>
+            				#else
+            					<td>注册资金：无</td>
+							#end
+							#if($logisticsInfo.registerAddress != $null && $logisticsInfo.registerAddress != '')
+                				<td>注册地：$logisticsInfo.registerAddress</td>
+            				#else
+            					<td>注册地：无</td>
+            				#end
+							<td>公司电话：$logisticsInfo.areaCode - $logisticsInfo.landlineNumber</td>
+						</tr>
+						<tr>
+							#if($logisticsInfo.registerNumber != $null && $logisticsInfo.registerNumber != '')
+                				<td colspan="2">公司注册号：$logisticsInfo.registerNumber</td>
+            				#else
+            					<td colspan="2">公司注册号：无</td>
+            				#end
+							<td colspan="2">注册地址：$logisticsInfo.address</td>
+						</tr>
+						<tr>
+							
+							#if($logisticsInfo.corporateType != $null && $logisticsInfo.corporateType != '')
+                				<td colspan="2">公司类型：
+									 #foreach($corporate in $corporateType)
+										#if($corporate.key == $logisticsInfo.corporateType)
+											$corporate.value
+										#end
+        							#end
+								</td>
+            				#else
+            					<td colspan="2">公司类型：无</td>
+							#end
+							#if($logisticsInfo.companySize != $null && $logisticsInfo.companySize != '')
+                				<td colspan="2">公司规模：$logisticsInfo.companySize</td>
+            				#else
+            					<td colspan="2">公司规模：无</td>
+            				#end
+							
+						</tr>
+						<tr>
+							#if($logisticsInfo.representsIdCardNumber != $null && $logisticsInfo.representsIdCardNumber != '')
+                				<td colspan="2">法人身份证：<span class="bluefc">$logisticsInfo.representsIdCardNumber </span><span class="fr bluefc" onclick="showPicture('$logisticsInfo.representsIdCardPictureUrl');">点击查看</span></td>
+            				#else
+            					<td colspan="2">法人身份证：无</td>
+							#end
+							#if($logisticsInfo.organizationCode != $null && $logisticsInfo.organizationCode != '')
+                				<td colspan="2">机构代码：<span class="bluefc">$logisticsInfo.organizationCode </span><span class="fr bluefc" onclick="showPicture('$logisticsInfo.organizationPictureUrl');">点击查看</span></td>
+            				#else
+            					<td colspan="2">机构代码：无</td>
+            				#end
+						</tr>
+						<tr>
+							#if($logisticsInfo.director != $null && $logisticsInfo.director != '')
+                				<td colspan="1">发货负责人：$logisticsInfo.director</td>
+            				#else
+            					<td colspan="1">发货负责人：无</td>
+							#end
+							#if($logisticsInfo.directorPhoneNumber != $null && $logisticsInfo.directorPhoneNumber != '')
+                				<td colspan="1">发货负责人电话：$logisticsInfo.directorPhoneNumber</td>
+            				#else
+            					<td colspan="1">发货负责人电话：无</td>
+            				#end
+							#if($logisticsInfo.directorIdCardNumber != $null && $logisticsInfo.directorIdCardNumber != '')
+                				<td colspan="2">负责人身份证：<span class="bluefc">$logisticsInfo.directorIdCardNumber </span><span class="fr bluefc" onclick="showMorePicture('$logisticsInfo.directorIdCardPictureUrl1','$logisticsInfo.directorIdCardPictureUrl2');">点击查看</span></td>
+            				#else
+            					<td colspan="2">负责人身份证：无</td>
+            				#end
+						</tr>
+						<tr>
+							<td colspan="2">车辆类型：$logisticsInfo.truckTypeName</td>
+							<td>车辆数量：<span class="redfc">$logisticsInfo.truckTotal</span></td>
+							<td>司机数量：<span class="redfc">$logisticsInfo.truckOwnerTotal</span></td>
+						</tr>
+						<tr>
+							<td colspan="4">公司经营范围：</td>
+						</tr>
+						<tr>
+							#if($logisticsInfo.companyBusinessScope != $null && $logisticsInfo.companyBusinessScope != '')
+                				<td colspan="4">$logisticsInfo.companyBusinessScope</td>
+            				#else
+            					<td colspan="4">无</td>
+            				#end
+						</tr>
+						<tr>
+							<td colspan="4">公司简介：</td>
+						</tr>
+						<tr>
+						#if($logisticsInfo.introduction != $null && $logisticsInfo.introduction != '')
+            				<td colspan="4">$logisticsInfo.introduction</td>
+        				#else
+        					<td colspan="4">无</td>
+        				#end
+						</tr>
+					</table>
+					<div class="tc lh30 mt20">
+                		<span class="btnBlue Blackdetail whitefc cursor" onclick="closeIf();">关闭</span>
+                	</div>
+				</div>
+			</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口并刷新页面
+	function closeIf(){
+		//parent.search(parseInt(parent.$('.active').attr('jp-data')));
+        parent.layer.close(index);
+	}
+	function showPicture(url){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url}]
+                }
+    	});
+	}
+	
+	function showMorePicture(url1,url2){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url1},{"src": url2}]
+                }
+    	});
+	}
+</script>
+</body>
+</html>

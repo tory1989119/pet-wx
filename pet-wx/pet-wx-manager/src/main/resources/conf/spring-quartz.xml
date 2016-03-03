@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						   http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+						   http://www.springframework.org/schema/context 
+	 					   http://www.springframework.org/schema/context/spring-context-3.2.xsd ">
+   <!-- 获取access_token任务开始 -->
+   <!-- 获取access_token的job -->
+   <bean id="accessTokenJob" class="com.pet.wx.manager.job.AccessTokenJob"/>  
+	<!-- 获取access_token调度的配置 -->
+	<bean id="accessTokenTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="accessTokenJobDetail" />
+		<property name="cronExpression" value="0 0 0/1 * * ? *" /> <!-- 每隔2小时 -->
+	</bean>
+	
+	<!-- 获取access_token的job的配置-->
+    <bean id="accessTokenJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <!-- 指定任务实体 --> 
+        <property name="targetObject" ref="accessTokenJob"/> 
+        <!-- 指定任务入口方法 --> 
+        <property name="targetMethod" value="execute"/>  
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+        <property name="concurrent" value="false"/>
+   </bean>  
+   <!-- 获取access_token任务结束-->
+   
+   <!-- 启动触发器的配置 -->
+   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+       <property name="triggers">  
+        <!-- 每个Trigger表示一个作业。 -->
+           <list>  
+               <ref bean="accessTokenTrigger"/> 
+           </list>  
+       </property>  
+       <property name="autoStartup" value="true"/>  
+    </bean> 
+    
+</beans>

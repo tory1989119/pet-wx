@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.wx.db.dao.WxMetarialDao">
+	<!-- 插入信息 -->
+	<insert id="insertWxMetarial" parameterType="WxMetarialInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO WX_METARIAL_INFO (MEDIA_ID,TITLE,THUMB_MEDIA_ID,THUMB_URL,SHOW_COVER_PIC,AUTHOR,DIGEST,CONTENT,URL,CONTENT_SOURCE_URL,UPDATE_TIME,NAME)
+		VALUES (#{mediaId},#{title},#{thumbMediaId},#{thumbUrl},#{showCoverPic},#{author},#{digest},#{content},#{url},#{contentSourceUrl},#{updateTime},#{name})
+	</insert>
+	
+	<!-- 查询微信用户素材列表 -->
+	<select id="queryWxMetarial" parameterType="SysSearchDto" resultType="WxMetarialInfo" >
+		SELECT 
+		ID id,
+		MEDIA_ID mediaId,
+		TITLE title,
+		THUMB_MEDIA_ID thumbMediaId,
+		THUMB_URL thumbUrl,
+		SHOW_COVER_PIC showCoverPic,
+		AUTHOR author,
+		DIGEST digest,
+		URL url,
+		CONTENT_SOURCE_URL contentSourceUrl,
+		date_format(UPDATE_TIME, '%Y-%m-%d %H:%i:%s') updateTime,
+		NAME name
+		FROM WX_METARIAL_INFO
+		LIMIT #{begin},#{rows}
+	</select>
+	
+	<!-- 查询素材列表数 -->
+	<select id="countWxMetarial" parameterType="SysSearchDto" resultType="int" >
+		SELECT COUNT(ID) 
+		FROM WX_METARIAL_INFO
+	</select>
+	
+	<!-- 根据id获取素材信息 -->
+	<select id="getWxMetarialInfo" parameterType="Long" resultType="WxMetarialInfo" >
+		SELECT 
+		ID id,
+		MEDIA_ID mediaId,
+		TITLE title,
+		THUMB_MEDIA_ID thumbMediaId,
+		THUMB_URL thumbUrl,
+		SHOW_COVER_PIC showCoverPic,
+		AUTHOR author,
+		DIGEST digest,
+		CONTENT content,
+		URL url,
+		CONTENT_SOURCE_URL contentSourceUrl,
+		UPDATE_TIME updateTime,
+		NAME name
+		FROM WX_METARIAL_INFO
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 清空表数据 -->
+	<update id="truncateWxMetarial">
+		TRUNCATE WX_METARIAL_INFO
+	</update>
+	
+	<!-- 删除素材 -->
+	<update id="deleteWxMetarial" parameterType="Long">
+		DELETE FROM WX_METARIAL_INFO WHERE ID = #{id}
+	</update>
+	
+	<!-- 查询微信用户素材列表 -->
+	<select id="queryWxMetarialForSchool" parameterType="int" resultType="WxMetarialInfo" >
+		SELECT 
+		ID id,
+		MEDIA_ID mediaId,
+		TITLE title,
+		THUMB_MEDIA_ID thumbMediaId,
+		THUMB_URL thumbUrl,
+		SHOW_COVER_PIC showCoverPic,
+		AUTHOR author,
+		DIGEST digest,
+		URL url,
+		CONTENT_SOURCE_URL contentSourceUrl,
+		date_format(UPDATE_TIME, '%Y-%m-%d %H:%i:%s') updateTime,
+		NAME name
+		FROM WX_METARIAL_INFO
+		ORDER BY DESC UPDATE_TIME
+		LIMIT 0,#{rows}
+	</select>
+</mapper>

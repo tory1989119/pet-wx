@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/js/walrusType.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/extend/layer.ext.js"></script>
+</head>
+<body>
+<div class="mainSemt">
+	<div class="navigateItem pl20">
+		业务管理>订单管理>订单详情
+	</div>
+	<div class="rightMain p10">
+		<table width="100%" class="detailBus">
+			<tr>
+				<td colspan="4" class="tc">订单号：$orderInfo.orderNo（
+					#foreach($orderStatus in $orderStatusType)
+    					#if($orderStatus.key == $orderInfo.status)
+    						$orderStatus.value
+    					#end
+    				#end
+				）</td>
+			</tr>
+			<tr>
+				<td>发货地：$orderInfo.departureProvince $orderInfo.departureCity $orderInfo.departureArea $orderInfo.departureAddress</td>
+				<td>收货地：$orderInfo.destinationProvince $orderInfo.destinationCity $orderInfo.destinationArea $orderInfo.destinationAddress</td>
+				#if($orderInfo.shippingDate != $null)
+					<td>发货日期：$orderInfo.shippingDate</td>
+				#else
+					<td>发货日期：$orderInfo.intentShippingDate</td>
+				#end
+				
+				#if($orderInfo.arriveTime != $null)
+					<td>期望到达：$orderInfo.arriveTime</td>
+				#else
+					<td>期望到达：$orderInfo.intentArriveDatetime</td>
+				#end
+				
+			</tr>
+			<tr>
+				<td colspan="2" id="goodsTypeId">货物信息：
+				#foreach($goods in $goodsType)
+					#if($goods.key == $orderInfo.goodsType)
+						$goods.value
+					#end
+				#end
+				
+        		#if($orderInfo.estimateWeight != $null && $orderInfo.estimateWeight != '')
+        			 $orderInfo.estimateWeight (吨)
+				#end
+				
+				#if($orderInfo.estimateVolume != $null && $orderInfo.estimateVolume != '')
+        			 $orderInfo.estimateVolume (立方米)
+				#end
+				
+				</td>
+				
+				#if($orderInfo.vehicleType != $null && $orderInfo.vehicleType != '' && $orderInfo.vehicleType != '-1')
+					<td colspan="2">车辆类型：
+						#foreach($truck in $truckType)
+							#if($truck.key == $orderInfo.vehicleType)
+								$truck.value
+							#end
+						#end
+						&nbsp;
+						#foreach($truckLength in $truckLengthType)
+							#if($truckLength.key == $orderInfo.vehicleLengthType)
+								$truckLength.value
+							#end
+						#end
+						&nbsp;						
+						#foreach($truckWeight in $truckWeightType)
+							#if($truckWeight.key == $orderInfo.vehicleWeightType)
+								$truckWeight.value
+							#end
+						#end
+					</td>
+				#else
+					<td colspan="2">车辆信息：无</td>
+				#end
+			</tr>
+			<tr>
+				#if($orderInfo.logisticsName != $null)
+					<td colspan="2">物流公司：$orderInfo.logisticsName</td>
+				#else
+					<td colspan="2">物流公司：无</td>
+				#end
+				
+				#if($orderInfo.truckInsurance != $null)
+					<td>车辆投保：$orderInfo.truckInsurance 万</td>
+				#else
+					<td>车辆投保：无</td>
+				#end
+				<td>保价声明：$orderInfo.goodsInsurance 元</td>
+			</tr>
+			<tr>
+				#if($orderInfo.representsIdCardNumber != $null && $orderInfo.representsIdCardNumber != '')
+    				<td colspan="2">法人身份证：<span class="bluefc">$orderInfo.representsIdCardNumber </span><span class="fr bluefc" onclick="showPicture('$orderInfo.representsIdCardPictureUrl');">点击查看</span></td>
+				#else
+					<td colspan="2">法人身份证：无</td>
+				#end
+				#if($orderInfo.organizationCode != $null && $orderInfo.organizationCode != '')
+    				<td colspan="2">机构代码：<span class="bluefc">$orderInfo.organizationCode </span><span class="fr bluefc" onclick="showPicture('$orderInfo.organizationPictureUrl');">点击查看</span></td>
+				#else
+					<td colspan="2">机构代码：无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="2">收货电话：$orderInfo.shippingPhoneNumber</td>
+				<td>发货电话：$orderInfo.consigneePhoneNumber</td>
+				
+				#if($orderInfo.amount != $null)
+					<td>价格：$orderInfo.amount 元</td>
+				#else
+					<td>价格：无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4">备注：</td>
+			</tr>
+			<tr>
+				#if($orderInfo.remark != $null && $orderInfo.remark != '')
+					<td colspan="4">$orderInfo.remark</td>
+				#else
+					<td colspan="4">无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4">货物图片：</td>
+			</tr>
+			<tr>
+				#if($orderInfo.goodsPictureUrl1 != $null && $orderInfo.goodsPictureUrl1 != '')
+					<td colspan="1"><img src="$orderInfo.goodsPictureUrl1" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+				#if($orderInfo.goodsPictureUrl2 != $null && $orderInfo.goodsPictureUrl2 != '')
+					<td colspan="1"><img src="$orderInfo.goodsPictureUrl2" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+				#if($orderInfo.goodsPictureUrl3 != $null && $orderInfo.goodsPictureUrl3 != '')
+					<td colspan="1"><img src="$orderInfo.goodsPictureUrl3" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+				#if($orderInfo.goodsPictureUrl4 != $null && $orderInfo.goodsPictureUrl4 != '')
+					<td colspan="1"><img src="$orderInfo.goodsPictureUrl4" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+			</tr>
+		</table>
+		<div class="tc lh30 mt20">
+    		<span class="btnBlue Blackdetail whitefc cursor" onclick="closeIf();">关闭</span>
+			#if($orderInfo.status == '3' || $orderInfo.status == '4')
+				#if($orderInfo.coordinate != $null || $orderInfo.coordinate != '')
+					<span class="btnBlue Blackdetail whitefc cursor" onclick="getLocation($orderInfo.id);">定位</span>
+				#end
+			#end
+    	</div>
+	</div>
+</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口并刷新页面
+	function closeIf(){
+        parent.layer.close(index);
+	}
+	
+	//定位
+function getLocation(id){
+	//iframe层-父子操作
+	var index = layer.open({
+	    type: 2,
+	    area: ['900px', '900px'],
+	    fix: false, //不固定
+	    maxmin: true,
+	    content: 'orderLocation.htm?id=' + id
+	});
+	layer.full(index);
+}
+
+	function showPicture(url){
+		layer.photos({
+        	photos: {
+                    "data": [{"src": url}]
+                }
+    	});
+	}
+	
+</script>
+</body>
+</html>

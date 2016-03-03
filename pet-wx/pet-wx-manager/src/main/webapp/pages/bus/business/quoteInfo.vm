@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/bootstrap.min.css" />
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/jqPaginator/jqPaginator.js"></script>
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/business/quoteInfo.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/js/walrusType.js"></script>
+</head>
+<body>
+<div class="mainSemt">
+	<div class="navigateItem pl20">
+		业务管理>报价管理>报价详情
+		<span class="fr mr20 blakBtn whitefc mt5">
+			<a href="javascript:void(0);" onclick="closeIf();">返回</a>
+		</span>
+	</div>
+	<div class="rightMain p10">
+		<table width="100%" class="detailBus">
+			<tr>
+				<td colspan="4" class="tc">订单号：$quoteInfo.orderNo ( $difMinute )</td>
+				<input id="orderId" type="hidden" value="$quoteInfo.orderId"/>
+			</tr>
+			<tr>
+				<td>发货地：$quoteInfo.departureProvince $quoteInfo.departureCity $quoteInfo.departureArea $quoteInfo.departureAddress</td>
+				<td>收货地：$quoteInfo.destinationProvince $quoteInfo.destinationCity $quoteInfo.destinationArea $quoteInfo.destinationAddress</td>
+				<td>发货日期：$quoteInfo.intentShippingDate</td>
+				<td>期望到达：$quoteInfo.intentArriveDatetime</td>
+			</tr>
+			<tr>
+				<td>货物信息：
+				#foreach($goods in $goodsType)
+					#if($goods.key == $quoteInfo.goodsType)
+						$goods.value
+					#end
+				#end
+				
+        		#if($quoteInfo.estimateWeight != $null && $quoteInfo.estimateWeight != '')
+        			 $quoteInfo.estimateWeight (吨)
+				#end
+				
+				#if($quoteInfo.estimateVolume != $null && $quoteInfo.estimateVolume != '')
+        			 $quoteInfo.estimateVolume (立方米)
+				#end
+				
+				</td>
+				<td>保价申明：$quoteInfo.goodsInsurance</td>
+				<td colspan="2">发货用户帐号：$quoteInfo.phoneNumber</td>
+			</tr>
+			<tr>
+				<td colspan="4">货物图片：</td>
+			</tr>
+			<tr>
+				#if($quoteInfo.goodsPictureUrl1 != $null && $quoteInfo.goodsPictureUrl1 != '')
+					<td colspan="1"><img src="$quoteInfo.goodsPictureUrl1" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+				#if($quoteInfo.goodsPictureUrl2 != $null && $quoteInfo.goodsPictureUrl2 != '')
+					<td colspan="1"><img src="$quoteInfo.goodsPictureUrl2" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+				#if($quoteInfo.goodsPictureUrl3 != $null && $quoteInfo.goodsPictureUrl3 != '')
+					<td colspan="1"><img src="$quoteInfo.goodsPictureUrl3" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+				#if($quoteInfo.goodsPictureUrl4 != $null && $quoteInfo.goodsPictureUrl4 != '')
+					<td colspan="1"><img src="$quoteInfo.goodsPictureUrl4" height="100px" width="100px" /></td>
+				#else
+					<td colspan="1"></td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4">备注：</td>
+			</tr>
+			<tr>
+				#if($quoteInfo.remark != $null && $quoteInfo.remark != '')
+					<td colspan="4">$quoteInfo.remark</td>
+				#else
+					<td colspan="4">无</td>
+				#end
+			</tr>
+			<tr>
+				<td colspan="4" class="p0 tc">
+					<table class="w border0">
+						<tr>
+							<td>报价帐号</td>
+							<td>类型</td>
+							<td>全名</td>
+							<td>返程车</td>
+							<td>报价价格</td>
+							<td>报价时间</td>
+						</tr>
+						<tbody id="tbodyId">
+            				<tr >
+            					<td colspan="6">无数据</td>
+            				</tr>
+                        </tbody>
+					</table>
+					<div class="page tc f14 mt20 customBootstrap" id="pageId" style="display:none">
+            			<div class="fl">共<span class="bluefc" id="showPageCount"></span>页记录</div><ul class="pagination" id="paginationId"></ul>
+            		</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口并刷新页面
+	function closeIf(){
+        parent.layer.close(index);
+	}
+</script>
+</body>
+</html>

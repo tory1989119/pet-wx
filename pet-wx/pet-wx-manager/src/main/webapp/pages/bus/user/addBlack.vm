@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="海象网络科技(杭州)有限公司" />
+	<meta name="robots" content="All|None|Index|Noindex|Follow|Nofollow" />
+	<meta name="author" content="海象网络科技(杭州)有限公司" />
+	<meta name="copyright" content="© Walrushz.com All rights reserved" />
+	<title>物流APP后台管理系统</title>
+	<link rel="stylesheet" href="$request.getContextPath()/css/rightCommon.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/common.css">
+	<link rel="stylesheet" href="$request.getContextPath()/css/bootstrap.min.css" />
+	
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/My97DatePicker/WdatePicker.js"></script>
+	<script type="text/javascript" src="$request.getContextPath()/plugin/jqPaginator/jqPaginator.js"></script>
+	
+</head>
+<body>
+<div class="">
+			<div class="mainSemt">
+				<div class="navigateItem pl20">
+					用户管理>黑名单管理>添加黑名单
+				</div>
+				<div class="rightMain p10 w800 autoCenter">
+					<div class="mb20">
+						<span class="fl">请输入用户的手机号码：</span>
+						<span class="fl">
+							<input type="text" id="phoneNumber" class="input-control w250 h30  pl5 pr5" onchange="queryUserOrDriver();">
+						</span>　　
+						<span class="ml20">
+		    				<input name="u" type="radio" id="yh" onclick="queryUserOrDriver();"/>用户　　
+							<input name="u" type="radio" id="sj" onclick="queryUserOrDriver();"/>司机
+						</span>
+					</div>
+					<div class="informationBody lh30">
+						<div class="inforTop p10">
+							用户基本信息如下：
+		    				<span class="btnBlue btndetail whitefc fr cursor" onclick="detail();">查看详情</span>
+						</div>
+						<div class="p10">
+		    				<div class="detailCon" id="userType">用户类型：</div>
+		    				<div class="detailCon" id="userName">用户姓名：</div>
+		    				<div class="detailCon" id="createTime">注册时间：</div>
+							<div class="cb"></div>
+						</div>
+					</div>
+					<div class="informationBody lh30">
+						<div class="inforTop p10">
+							请输入拉黑的原因：
+						</div>
+						<div>
+							<textarea class="contentBlack p10" id="reason"></textarea>
+						</div>
+					</div>	
+					<div class="tc lh30 mt20">
+						<span class="btnGriy Blackdetail cursor mr20" onclick="closeIf();">
+								取消
+						</span>
+						<span class="btnBlue Blackdetail whitefc cursor" onclick="addBlack();">
+								添加至黑名单
+						</span>
+					</div>
+					<form id="mainForm"  name="mainForm" method="post" action="addBlackList.htm">
+						<input type="hidden" value="" name="type" id="hiddenType"/>
+						<input type="hidden" value="" name="userId" id="hiddenUserID"/>
+						<input type="hidden" value="" name="userAccount" id="hiddenAccount"/>
+						<input type="hidden" value="" name="userName" id="hiddenName"/>
+						<input type="hidden" value="" name="status" id="hiddenStatus"/>
+						<input type="hidden" value="" name="createTime" id="hiddenTime"/>
+						<input type="hidden" value="" name="defriendPerson" id="hiddenPerson"/>
+						<input type="hidden" value="" name="defriendReason" id="hiddenReason"/>
+					</form>
+				</div>
+			</div>
+</div>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	//关闭窗口
+	function closeIf(){
+		parent.search(parseInt(parent.$('.active').attr('jp-data')));
+        parent.layer.close(index);
+	}
+	
+	function queryUserOrDriver(){
+		var phoneNumber = document.getElementById("phoneNumber").value;
+		if(!(/^1\d{10}$/.test(phoneNumber))){ 
+ 			layer.tips('请输入正确的手机号码', '#phoneNumber', {
+				tipsMore: true,
+			    tips: [2, '#3E7FE7']
+			}); 
+			return false; 
+ 		}
+ 		var yh = document.getElementById("yh");
+		var sj = document.getElementById("sj");
+		var type;
+		if(yh.checked){
+			type = "1";
+		}else if(sj.checked){
+			type = "2";
+		}else{
+			type = "";
+		}
+		$.ajax({
+	      url: "queryUserOrDriver.htm",
+	      datatype: 'json',
+	      type: "post",
+	      data: {
+	    	  phoneNumber:$('#phoneNumber').val(),
+	    	  type:type
+	      },
+	      success: function (data) {
+	      	
+	        if (data.flag == '1' && data.errorCode == '10000') {
+		        if(data.content.type == null){
+		        	layer.alert('没有此用户！', {icon: 6});
+		        	$('#userType').html('用户类型：');
+		        	$('#userName').html('用户姓名：');
+		          	$('#createTime').html('注册时间：');
+		        }else{
+		        	if(data.content.type==1){
+			          	$('#userType').html('用户类型：用户');
+			          	yh.checked=true;
+		        	}else{
+			          	$('#userType').html('用户类型：司机');
+			          	sj.checked=true;
+		        	}
+		          	$('#userName').html('用户姓名：' + data.content.userName);
+		          	$('#createTime').html('注册时间：' + data.content.createTime);
+		          	
+		          	document.getElementById("hiddenType").value = data.content.type;
+		          	document.getElementById("hiddenUserID").value = data.content.userId;
+		          	document.getElementById("hiddenAccount").value = data.content.userAccount;
+		          	document.getElementById("hiddenName").value = data.content.userName;
+		          	document.getElementById("hiddenStatus").value = data.content.status;
+		          	document.getElementById("hiddenTime").value = data.content.createTime;
+		        	
+		        }
+	        }else{
+	        	layer.alert(data.content, {icon: 6});
+	        }
+	      }
+		});
+		
+		
+		
+	}
+	function detail(){
+		var type = document.getElementById("hiddenType").value;
+		var userId = document.getElementById("hiddenUserID").value;
+		if(userId == null || userId == ''){
+			layer.alert('请先输入用户或司机手机号码', {icon: 6});
+			return;
+		}
+		if(type==1){
+			getUserInfo(userId);
+		}else{
+			getDriverInfo(userId);
+		}
+		
+	}
+	function addBlack(){
+		var userId = document.getElementById("hiddenUserID").value;
+		if(userId == null || userId == ''){
+			layer.alert('请先输入用户或司机手机号码', {icon: 6});
+			return;
+		}
+		var reason = document.getElementById("reason").value;
+		document.getElementById("hiddenReason").value = reason;
+		$.ajax({
+	      url: "queryBlackBy.htm",
+	      datatype: 'json',
+	      type: "post",
+	      data: {
+	    	  userAccount:$('#hiddenAccount').val(),
+	    	  type:$('#hiddenType').val(),
+	    	  status:$('#hiddenStatus').val()
+	      },
+	      success: function (data) {
+		      if(data.flag == '1' && data.errorCode == '10000') {
+		      	 if(data.content != null){
+		    		layer.alert('此用户已被拉黑！', {icon: 6});
+			    }else{
+			    	add();
+			    }
+		      }
+	      }
+	    });
+	    
+		
+	}
+	
+	function add(){
+		var type = document.getElementById("hiddenType").value;
+      	var userId = document.getElementById("hiddenUserID").value;
+      	var userAccount = document.getElementById("hiddenAccount").value;
+      	var userName = document.getElementById("hiddenName").value;
+      	var createTime = document.getElementById("hiddenTime").value;
+      	var defriendPerson = document.getElementById("hiddenPerson").value;
+      	var defriendReason = document.getElementById("hiddenReason").value;
+		$.ajax({
+			url: "addBlackList.htm",
+			datatype: 'json',
+			type: "post",
+			data: {
+				type:type,
+				userId:userId,
+				userAccount:userAccount,
+				userName:userName,
+				status:1,
+				createTime:createTime,
+				defriendPerson:defriendPerson,
+				defriendReason:defriendReason
+			},
+			success: function (data) {
+				if (data.flag == '1' && data.errorCode == '10000') {
+					closeIf();
+				}else{
+					layer.alert(data.content, {icon: 6});
+				}
+			}
+		});
+	}
+	//查看司机详情
+	function getDriverInfo(id){
+		//iframe层-父子操作
+		var index = layer.open({
+		    type: 2,
+		    area: ['900px', '650px'],
+		    fix: false, //不固定
+		    maxmin: true,
+		    content: 'driverInfoPage.htm?id=' + id
+		});
+		layer.full(index);
+	}
+	//查看用户详情
+	function getUserInfo(id){
+		//iframe层-父子操作
+		var index = layer.open({
+		    type: 2,
+		    area: ['900px', '650px'],
+		    fix: false, //不固定
+		    maxmin: true,
+		    content: 'userInfoPage.htm?id=' + id
+		});
+		layer.full(index);
+	}
+</script>
+</body>
+</html>
