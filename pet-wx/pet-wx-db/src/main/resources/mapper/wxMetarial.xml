@@ -79,7 +79,7 @@
 		date_format(UPDATE_TIME, '%Y-%m-%d %H:%i:%s') updateTime,
 		NAME name
 		FROM WX_METARIAL_INFO
-		ORDER BY DESC UPDATE_TIME
+		ORDER BY UPDATE_TIME DESC
 		LIMIT 0,#{rows}
 	</select>
 </mapper>

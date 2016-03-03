@@ -1,0 +1,94 @@
+@charset "utf-8";
+/* 
+    Author：daye
+    Date: 2016.1.8
+
+ */
+ a,a:hover{
+    color: #737373;
+    text-decoration: none;
+ }
+.griy{
+    color: #737373;
+}
+.griy-bg{
+    background-color: #eeeeee;
+}
+.floor,.viewport,.nav,.groom{
+	padding: 0;
+    min-width: 300px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.floor .sliderWrapper {
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    height: auto;
+}
+.floor .newSlide {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.floor .slideLi {
+    width: 100%;
+    visibility: visible;
+    background-color: #fff;
+    float: left;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+}
+.floor .slideLi img {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+}
+
+.floor .sliderWrapper .dots {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0,0.5);
+    height: 3rem;
+    line-height: 3rem;
+    width: 100%;
+    font-size: 1.4rem;
+}
+.groom .groom-title{
+    height: 2rem;
+    line-height: 2rem;
+    padding-left: 20px;
+    color: #333333;
+    border-bottom: 1px solid #dddddd;
+}
+.groom .groom-list ul li{
+    padding: 20px 0 0 0;
+    overflow: hidden;
+}
+.groom .groom-list ul li .avatar{
+    width: 40%;
+    height: 8rem;
+}
+.groom .groom-list ul li .avatar .avatar-box{
+    height: 90%;
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid #BDBABA;
+}
+.groom .groom-list ul li  .grrom-brev{
+    width: 60%;
+}
+.groom .groom-list ul li  .brev-box{
+    width: 95%;
+    margin: 0 auto;
+}
+.groom .groom-text{
+    height: 2rem;
+    line-height: 2rem;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #333333;
+}

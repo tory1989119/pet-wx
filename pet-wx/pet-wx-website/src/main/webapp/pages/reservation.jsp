@@ -3,8 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>浙大动物医院</title>
-    <meta name="viewport" content="width=device-dpi, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="UTF-8">
+	<title>浙大宠物医院</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="applicable-device" content="mobile">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.min.js"></script>

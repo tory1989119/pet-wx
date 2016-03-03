@@ -25,14 +25,24 @@ public class PetHospitalController {
 	
 	private Logger logger = LoggerFactory.getLogger(PetHospitalController.class);
 
+	private final String MAIN_PAGE = "main"; //医院首页
 	private final String INTRODUCE_PAGE = "introduce"; //医院介绍
 	private final String DEPARTMENT_PAGE = "department"; //特色科室
 	private final String FACILITY_PAGE = "facility"; //设备设施
 	private final String SCHOOL_PAGE = "school"; //宠物学堂
 	private final String TEAM_PAGE = "team"; //医疗团队
 	private final String CONTACT_PAGE = "contact"; //联系我们
-	
 	private final String RESERVATION_PAGE = "reservation"; //预约
+	
+	/**
+	 * 跳转到医院首页
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "mainPage.do", method = RequestMethod.GET)
+	public String mainPage(){
+		return MAIN_PAGE;
+	}
 	
 	/**
 	 * 跳转到医院介绍
