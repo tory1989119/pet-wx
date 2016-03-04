@@ -4,8 +4,8 @@
 <mapper namespace="com.pet.wx.db.dao.WxMetarialDao">
 	<!-- 插入信息 -->
 	<insert id="insertWxMetarial" parameterType="WxMetarialInfo" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO WX_METARIAL_INFO (MEDIA_ID,TITLE,THUMB_MEDIA_ID,THUMB_URL,SHOW_COVER_PIC,AUTHOR,DIGEST,CONTENT,URL,CONTENT_SOURCE_URL,UPDATE_TIME,NAME)
-		VALUES (#{mediaId},#{title},#{thumbMediaId},#{thumbUrl},#{showCoverPic},#{author},#{digest},#{content},#{url},#{contentSourceUrl},#{updateTime},#{name})
+		INSERT INTO WX_METARIAL_INFO (MEDIA_ID,TITLE,THUMB_MEDIA_ID,THUMB_URL,SHOW_COVER_PIC,AUTHOR,DIGEST,CONTENT,URL,CONTENT_SOURCE_URL,UPDATE_TIME,NAME,TYPE)
+		VALUES (#{mediaId},#{title},#{thumbMediaId},#{thumbUrl},#{showCoverPic},#{author},#{digest},#{content},#{url},#{contentSourceUrl},#{updateTime},#{name},#{type})
 	</insert>
 	
 	<!-- 查询微信用户素材列表 -->
@@ -66,20 +66,21 @@
 	<!-- 查询微信用户素材列表 -->
 	<select id="queryWxMetarialForSchool" parameterType="int" resultType="WxMetarialInfo" >
 		SELECT 
-		ID id,
-		MEDIA_ID mediaId,
-		TITLE title,
-		THUMB_MEDIA_ID thumbMediaId,
-		THUMB_URL thumbUrl,
-		SHOW_COVER_PIC showCoverPic,
-		AUTHOR author,
-		DIGEST digest,
-		URL url,
-		CONTENT_SOURCE_URL contentSourceUrl,
-		date_format(UPDATE_TIME, '%Y-%m-%d %H:%i:%s') updateTime,
-		NAME name
-		FROM WX_METARIAL_INFO
-		ORDER BY UPDATE_TIME DESC
+		wmi1.ID id,
+		wmi1.MEDIA_ID mediaId,
+		wmi1.TITLE title,
+		wmi1.THUMB_MEDIA_ID thumbMediaId,
+		wmi2.URL thumbUrl,
+		wmi1.SHOW_COVER_PIC showCoverPic,
+		wmi1.AUTHOR author,
+		wmi1.DIGEST digest,
+		wmi1.URL url,
+		wmi1.CONTENT_SOURCE_URL contentSourceUrl,
+		date_format(wmi1.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') updateTime,
+		wmi1.NAME name
+		FROM WX_METARIAL_INFO wmi1 LEFT JOIN WX_METARIAL_INFO wmi2 ON wmi1.THUMB_MEDIA_ID = wmi2.MEDIA_ID
+		WHERE wmi1.TYPE = 'news'
+		ORDER BY wmi1.UPDATE_TIME DESC
 		LIMIT 0,#{rows}
 	</select>
 </mapper>

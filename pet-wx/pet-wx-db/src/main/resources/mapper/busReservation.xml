@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.wx.db.dao.BusReservationDao">
+	<!-- 插入信息 -->
+	<insert id="insertBusReservation" parameterType="BusReservationInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO BUS_RESERVATION_INFO (OPENID,PHONE_NUMBER,RESERVATION_TIME,DISEASE,CREATE_TIME)
+		VALUES (#{openid},#{phoneNumber},#{reservationTime},#{disease},NOW())
+	</insert>
+	
+	<!-- 查询微信用户预约列表 -->
+	<select id="queryBusReservation" parameterType="SysSearchDto" resultType="BusReservationInfo" >
+		SELECT 
+		ID id,
+		OPENID openid,
+		PHONE_NUMBER phoneNumber,
+		RESERVATION_TIME reservationTime
+		FROM BUS_RESERVATION_INFO WHERE 1=1
+		
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') >= str_to_date(#{startDate},'%Y-%m-%d') 
+			]]>
+		</if>
+		
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') <= str_to_date(#{endDate},'%Y-%m-%d')
+			]]>
+		</if>
+		LIMIT #{begin},#{rows}
+	</select>
+	
+	<!-- 查询微信用户预约列表数 -->
+	<select id="countBusReservation" parameterType="SysSearchDto" resultType="int" >
+		SELECT COUNT(ID) 
+		FROM BUS_RESERVATION_INFO WHERE 1=1
+		
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') >= str_to_date(#{startDate},'%Y-%m-%d') 
+			]]>
+		</if>
+		
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[
+				AND date_format(CREATE_TIME, '%Y-%m-%d') <= str_to_date(#{endDate},'%Y-%m-%d')
+			]]>
+		</if>
+	</select>
+	
+	<!-- 根据id获取预约信息 -->
+	<select id="getBusReservationInfo" parameterType="Long" resultType="BusReservationInfo" >
+		SELECT 
+		IID id,
+		OPENID openid,
+		PHONE_NUMBER phoneNumber,
+		RESERVATION_TIME reservationTime,
+		DISEASE disease
+		FROM BUS_RESERVATION_INFO
+		WHERE ID = #{id}
+	</select>
+	
+</mapper>

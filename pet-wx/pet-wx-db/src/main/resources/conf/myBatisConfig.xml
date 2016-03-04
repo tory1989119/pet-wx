@@ -12,6 +12,7 @@
 		<typeAlias alias="WxGroupInfo" type="com.pet.wx.db.model.WxGroupInfo"/>
 		<typeAlias alias="WxMetarialInfo" type="com.pet.wx.db.model.WxMetarialInfo"/>
 		<typeAlias alias="WxKfInfo" type="com.pet.wx.db.model.WxKfInfo"/>
+		<typeAlias alias="BusReservationInfo" type="com.pet.wx.db.model.BusReservationInfo"/>
 		
 		<typeAlias alias="SysUserInfo" type="com.pet.wx.db.model.SysUserInfo"/>
 		<typeAlias alias="SysMenuInfo" type="com.pet.wx.db.model.SysMenuInfo"/>

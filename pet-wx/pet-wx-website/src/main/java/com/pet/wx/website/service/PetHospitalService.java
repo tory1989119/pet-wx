@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonObject;
 import com.pet.wx.common.enums.WxConsts;
 import com.pet.wx.common.utils.Configuration;
+import com.pet.wx.db.dao.BusReservationDao;
 import com.pet.wx.db.dao.WxMetarialDao;
+import com.pet.wx.db.dao.WxUserDao;
 import com.pet.wx.db.inf.WxClient;
+import com.pet.wx.db.model.BusReservationInfo;
 import com.pet.wx.db.model.WxMetarialInfo;
+import com.pet.wx.db.model.WxUserInfo;
 
 @Service
 public class PetHospitalService {
@@ -18,6 +22,10 @@ public class PetHospitalService {
 	private WxMetarialDao wxMetarialDao;
 	@Autowired
 	private WxClient wxClient;
+	@Autowired
+	private WxUserDao wxUserDao;
+	@Autowired
+	BusReservationDao busReservationDao;
 	
 	
 	/**
@@ -38,5 +46,22 @@ public class PetHospitalService {
 		String appid = Configuration.getGlobalMsg("appid");
 		String secret = Configuration.getGlobalMsg("secret");
 		return wxClient.authorize(grant_type, appid, secret, code);
+	}
+	
+	/**
+	 * 获取微信用户信息
+	 * @param openid
+	 * @return
+	 */
+	public WxUserInfo getWxUserByOpenid (String openid){
+		return wxUserDao.getWxUserByOpenid(openid);
+	}
+	
+	/**
+	 * 插入信息
+	 * @param busReservation
+	 */
+	public void insertBusReservation(BusReservationInfo busReservation){
+		busReservationDao.insertBusReservation(busReservation);
 	}
 }

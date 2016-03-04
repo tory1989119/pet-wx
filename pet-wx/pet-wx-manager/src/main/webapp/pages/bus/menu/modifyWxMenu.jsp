@@ -24,7 +24,6 @@
 						<span class="fl wp16 tr">菜单名：</span>
 						<input type="hidden"  name="id" id="id" value="${wxMenuInfo.id}">
 						<input type="hidden" name="fid" id="fid" value="${wxMenuInfo.fid}">
-						<input type="text" class="input-control h35  pl5 pr5 wp80" name="name" id="name" value="${wxMenuInfo.name}">
 						<c:if test="${wxMenuInfo.fid == null || wxMenuInfo.fid == ''}">
 							<input type="text" class="input-control h35  pl5 pr5 wp80" name="name" id="name" maxlength="4" value="${wxMenuInfo.name}">
 						</c:if>

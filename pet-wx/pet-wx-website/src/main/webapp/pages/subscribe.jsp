@@ -21,26 +21,15 @@
 		<header>
 			<div class="tc white head-title f20">
 				<i class="fa fa-plus-square"></i>
-				联系我们
+				关注我们
 			</div>
 		</header>
 		<div class="groom">
-			<div class="griy-bg h20">
-				
-			</div>
 			<div class="groom-list overflow">
-				<p><br><br>
-					<font size="4px">&nbsp;&nbsp;地址：浙江省杭州市西湖区萍水西街235号</font><br>
-					<font size="4px"><a href="tel:13888888888">&nbsp;&nbsp;手机：13888888888</a></font><br>
-					<font size="4px"><a href="tel:0571-88888888">&nbsp;&nbsp;电话：0571-88888888</a></font><br>
-					<font size="4px">&nbsp;&nbsp;QQ：254400398</font><br>
-				</p>
 				<p align="center">
+					<br><br><br><br><br>
 					<img src="<%=request.getContextPath()%>/images/zjdxdwyy.jpg">
-					</p>
-			</div>
-			<div class="griy-bg h20">
-				
+				</p>
 			</div>
 		</div>
 	</div>

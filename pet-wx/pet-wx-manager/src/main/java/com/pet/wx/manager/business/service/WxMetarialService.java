@@ -34,17 +34,27 @@ public class WxMetarialService {
 		br.setPageCount(wxMetarialDao.countWxMetarial(searchDto));
 		return br;
 	}
+	
+	public BaseResponseDto<Object> syncWxMetarial(){
+		wxMetarialDao.truncateWxMetarial();
+		BaseResponseDto<Object> br = syncNews();
+		if(br.getErrorCode().equals(ErrorCode.sucessed.getCode())){
+			br = syncImage();
+		}
+		return br;
+	}
+	
+	
 	/**
-	 * 同步素材
+	 * 同步图文素材
 	 * @return
 	 */
-	public BaseResponseDto<Object> syncWxMetarial(){
+	private BaseResponseDto<Object> syncNews(){
 		BaseResponseDto<Object> br = new BaseResponseDto<Object>();
 		Integer begin = 0;
 		boolean flag = true;
-		wxMetarialDao.truncateWxMetarial();
 		while (flag) {
-			JsonObject jo = wxClient.metarialQuery(begin);
+			JsonObject jo = wxClient.metarialQuery("news",begin);
 			if(jo.get("errcode") == null){
 				begin = begin +20;
 				Integer item_count = jo.get("item_count").getAsInt();
@@ -60,6 +70,7 @@ public class WxMetarialService {
 						for (int j = 0; j < metarualJa.size(); j++) {
 							JsonObject mediaJo = metarualJa.get(j).getAsJsonObject();
 							WxMetarialInfo wxMetarial = new WxMetarialInfo();
+							wxMetarial.setType("news");
 							wxMetarial.setMediaId(media_id);
 							wxMetarial.setUpdateTime(date);
 							wxMetarial.setTitle(mediaJo.get("title").getAsString());
@@ -73,6 +84,47 @@ public class WxMetarialService {
 							wxMetarial.setContentSourceUrl(mediaJo.get("content_source_url").getAsString());
 							wxMetarialDao.insertWxMetarial(wxMetarial);
 						}
+					}
+				}else{
+					flag = false;
+				}
+			}else{
+				br.setErrorCode(ErrorCode.wx_error.getCode());
+				br.setContent(jo.get("errcode").getAsString() + "--" + jo.get("errmsg").getAsString());
+			}
+		}
+		return br;
+	}
+	
+	/**
+	 * 同步图片素材
+	 * @return
+	 */
+	private BaseResponseDto<Object> syncImage(){
+		BaseResponseDto<Object> br = new BaseResponseDto<Object>();
+		Integer begin = 0;
+		boolean flag = true;
+		while (flag) {
+			JsonObject jo = wxClient.metarialQuery("image",begin);
+			if(jo.get("errcode") == null){
+				begin = begin +20;
+				Integer item_count = jo.get("item_count").getAsInt();
+				if(item_count > 0){
+					JsonArray ja = jo.get("item").getAsJsonArray();
+					for (int i = 0; i < ja.size(); i++) {
+						JsonObject metarialJo = ja.get(i).getAsJsonObject();
+						String media_id = metarialJo.get("media_id").getAsString();
+						Long update_time = metarialJo.get("update_time").getAsLong();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						String date = sdf.format(new Date(update_time*1000));
+						WxMetarialInfo wxMetarial = new WxMetarialInfo();
+						wxMetarial.setMediaId(media_id);
+						wxMetarial.setUpdateTime(date);
+						wxMetarial.setUrl(metarialJo.get("url").getAsString());
+						wxMetarial.setName(metarialJo.get("name").getAsString());
+						wxMetarial.setTitle(metarialJo.get("name").getAsString());
+						wxMetarial.setType("image");
+						wxMetarialDao.insertWxMetarial(wxMetarial);
 					}
 				}else{
 					flag = false;

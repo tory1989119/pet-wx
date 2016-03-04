@@ -47,7 +47,7 @@
 						<li>
 							<div class="avatar fl">
 								<div class="avatar-box">
-									<a href="${item.url}"><img alt="" src="${item.thumbUrl}"></a>
+									<a href="${item.url}"><img alt="${item.title}" src="${item.thumbUrl}" width="100%" height="100%"></a>
 								</div>
 							</div>
 							<div class="grrom-brev fl">

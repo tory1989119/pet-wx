@@ -47,6 +47,9 @@ public interface WxConsts {
 	/** 素材管理 - 查询素材 */
 	public static final String METARIAL_QUERY_URL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=%s";
 	
+	/** 素材管理 - 查询素材 */
+	public static final String METARIAL_GET_URL = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=%s";
+	
 	/** 客服管理 - 查询客服 */
 	public static final String KF_QUERY_URL = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=%s";
 	

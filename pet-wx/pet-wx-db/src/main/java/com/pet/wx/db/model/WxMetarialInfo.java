@@ -50,6 +50,10 @@ public class WxMetarialInfo {
 	 * 文件名称
 	 */
 	private String name;
+	/**
+	 * 类型
+	 */
+	private String type;
 	
 	public Long getId() {
 		return id;
@@ -128,5 +132,11 @@ public class WxMetarialInfo {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

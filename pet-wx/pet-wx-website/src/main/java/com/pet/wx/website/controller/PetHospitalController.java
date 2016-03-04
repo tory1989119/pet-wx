@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
 import com.pet.wx.common.enums.ErrorCode;
 import com.pet.wx.db.dto.BaseResponseDto;
+import com.pet.wx.db.model.BusReservationInfo;
 import com.pet.wx.db.model.WxMetarialInfo;
+import com.pet.wx.db.model.WxUserInfo;
 import com.pet.wx.website.service.PetHospitalService;
 
 @Controller
@@ -33,6 +36,7 @@ public class PetHospitalController {
 	private final String TEAM_PAGE = "team"; //医疗团队
 	private final String CONTACT_PAGE = "contact"; //联系我们
 	private final String RESERVATION_PAGE = "reservation"; //预约
+	private final String SUBSCRIBE_PAGE = "subscribe"; //关注
 	
 	/**
 	 * 跳转到医院首页
@@ -117,28 +121,44 @@ public class PetHospitalController {
 	 */
 	@RequestMapping(value = "reservationPage.do", method = RequestMethod.GET)
 	public String reservationPage(HttpServletRequest request,String code){
-		petHospitalService.authorize(code);
+		try {
+			if(code == null || code.equals("")){
+				return SUBSCRIBE_PAGE;
+			}else{
+				JsonObject jo = petHospitalService.authorize(code);
+				String openid = jo.get("openid").getAsString();
+				if(openid != null && !openid.equals("")){
+					request.setAttribute("openid", openid);
+					WxUserInfo wxUser = petHospitalService.getWxUserByOpenid(openid);
+					if(wxUser != null && wxUser.getSubscribe().equals("0")){
+						return SUBSCRIBE_PAGE;
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("PetHospitalController.reservationPage", e);
+			return SUBSCRIBE_PAGE;
+		}
+		
 		return RESERVATION_PAGE;
 	}
 	
 	/**
-	 * 获取授权信息
+	 * 新增预约
 	 * 
-	 * @param searchDto
 	 * @return
 	 */
-	@RequestMapping(value = "authorize.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "insertReservation.do", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public BaseResponseDto<Object> authorize(String code) {
+	public BaseResponseDto<Object> insertReservation(BusReservationInfo busReservation) {
 		BaseResponseDto<Object> br = new BaseResponseDto<Object>();
 		try {
-			br.setContent(petHospitalService.authorize(code));
+			petHospitalService.insertBusReservation(busReservation);
 		} catch (Exception e) {
-			logger.error("PetHospitalController.authorize", e);
+			logger.error("PetHospitalController.insertReservation", e);
 			br.setErrorCode(ErrorCode.sys_error.getCode());
 			br.setContent(ErrorCode.sys_error.getDes());
 		}
 		return br;
 	}
-	
 }

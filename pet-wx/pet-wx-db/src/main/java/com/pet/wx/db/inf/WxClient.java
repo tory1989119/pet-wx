@@ -179,9 +179,9 @@ public class WxClient {
 	 * @param begin
 	 * @return
 	 */
-	public JsonObject metarialQuery(Integer begin){
+	public JsonObject metarialQuery(String type,Integer begin){
 		String url = String.format(WxConsts.METARIAL_QUERY_URL, AccessTokenDto.getAccess_token());
-		JsonObject jo = GsonUtils.fromJson(HttpClientUtils.post(url,"{\"type\":\"news\",\"offset\":" + begin + ",\"count\":20}", "UTF-8"), JsonObject.class,true);
+		JsonObject jo = GsonUtils.fromJson(HttpClientUtils.post(url,"{\"type\":\"" + type + "\",\"offset\":" + begin + ",\"count\":20}", "UTF-8"), JsonObject.class,true);
 		return jo;
 	}
 	
