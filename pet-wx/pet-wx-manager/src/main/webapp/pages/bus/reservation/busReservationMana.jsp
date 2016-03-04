@@ -19,20 +19,10 @@
 <body>
 <div class="mainSemt">
 	<div class="navigateItem pl20">
-		系统管理>管理员管理
+		业务管理>预约管理
 	</div>
 	<div class="search">
 		<ul class="mb20 overflow">
-			<li>
-				<select class="form-control select145 h30" id="type">
-					<option value="0">搜索类型</option>
-					<option value="1">昵称</option>
-			        <option value="2">手机号码</option>
-				</select>
-			</li>
-			<li>
-				<input type="text" class="form-control text250 h30" id="typeValue"/>
-			</li>
 			<li>
 				<span class="fl">开始时间：</span>
 				<input type="text" class="form-control selec110 h30 fl" readonly  id="startDate" onClick="WdatePicker()"/>
@@ -46,27 +36,18 @@
 					搜索
 				</span>
 			</li>
-			<li>
-				<span class="btnSearch whitefc f14 mt5 clearfix cursor" onclick="add();">
-					新增
-				</span>
-			</li>
 		</ul>
 	</div>
 	<div class="rightMain tc p10">
 		<table width="100%">
 			<tr>
-				<td>管理员ID</td>
-				<td>昵称</td>
-				<td>性别</td>
-				<td>年龄</td>
-				<td>手机号码</td>
-				<td>创建时间</td>
-				<td>操作</td>
+				<td>手机</td>
+				<td>预约时间</td>
+				<td>病症</td>
 			</tr>
 			<tbody id="tbodyId">
 				<tr >
-					<td colspan="7">无数据</td>
+					<td colspan="3">无数据</td>
 				</tr>
             </tbody>
 		</table>
@@ -107,14 +88,12 @@ function search(pageNum){
 	
 	layer.load(2);//遮罩层
 	$.ajax({
-	      url: "<%=request.getContextPath()%>/sys/querySysUser.do",
+	      url: "<%=request.getContextPath()%>/bus/reservation/queryBusReservation.do",
 	      datatype: 'json',
 	      type: "post",
 	      data: {
 	    	  begin:(pageNum-1)*pageSize,
 	    	  rows:pageSize,
-	    	  nickName:nickName,
-	    	  phoneNumber:phoneNumber,
 	    	  startDate:$("#startDate").val(),
 	    	  endDate:$("#endDate").val()
 	      },
@@ -132,7 +111,7 @@ function search(pageNum){
 //列表显示内容
 function table(data,pageNum){
 	if(data.content == null || data.content.length <= 0){
-		$("#tbodyId").html('<tr ><td colspan="7">无数据</td></tr>');
+		$("#tbodyId").html('<tr ><td colspan="3">无数据</td></tr>');
 		$('#pageId').css('display','none');
 		return;
 	}else{
@@ -156,100 +135,14 @@ function table(data,pageNum){
 	var str = '';
 	for (var i = 0; i < data.content.length; i++) { 
 		str = str + '<tr>';
-		str = str + '<td>' + data.content[i].id + '</td>';
-		str = str + '<td>' + data.content[i].nickName + '</td>';
-		
-		if(data.content[i].sex != null){
-			if(data.content[i].sex == '0'){
-				str = str + '<td>' + '男' + '</td>';
-			}else{
-				str = str + '<td>' + '女' + '</td>';
-			}
-		}else{
-			str = str + '<td></td>';
-		}
-		
-		if(data.content[i].age != null){
-			str = str + '<td>' + data.content[i].age + '</td>';
-		}else{
-			str = str + '<td></td>';
-		}
-		
-		if(data.content[i].phoneNumber != null){
-			str = str + '<td>' + data.content[i].phoneNumber + '</td>';
-		}else{
-			str = str + '<td></td>';
-		}
-		str = str + '<td>' + data.content[i].createTime + '</td>';
-		str = str + '<td><a href="javascript:void(0)" onclick="getAdminInfo(\'' + data.content[i].id + '\')">管理员详情</a>　<a href="javascript:void(0)" onclick="modify(\'' + data.content[i].id + '\')">修改</a>　<a href="javascript:void(0)" onclick="dele(\'' + data.content[i].id + '\')">删除</a></td>';
+		str = str + '<td>' + data.content[i].phoneNumber + '</td>';
+		str = str + '<td>' + data.content[i].reservationTime + '</td>';
+		str = str + '<td>' + data.content[i].disease + '</td>';
 		str = str + '</tr>';
     }
 	$("#tbodyId").html(str);
 }
-//查看管理员详情
-function getAdminInfo(id){
-	//iframe层-父子操作
-	var index = layer.open({
-	    type: 2,
-	    area: ['900px', '500px'],
-	    fix: false, //不固定
-	    maxmin: true,
-	    content: '<%=request.getContextPath()%>/sys/sysUserInfoPage.do?id=' + id
-	});
-	layer.full(index);
-}
-//新增
-function add(){
-	//iframe层-父子操作
-	var index = layer.open({
-	    type: 2,
-	    area: ['900px', '500px'],
-	    fix: false, //不固定
-	    maxmin: true,
-	    content: '<%=request.getContextPath()%>/sys/addSysUserPage.do'
-	});
-	layer.full(index);
-}
-//修改
-function modify(id){
-	//iframe层-父子操作
-	var index = layer.open({
-	    type: 2,
-	    area: ['900px', '500px'],
-	    fix: false, //不固定
-	    maxmin: true,
-	    content: '<%=request.getContextPath()%>/sys/modifySysUserPage.do?id='+id
-	});
-	layer.full(index);
-}
-//删除
-function dele(id){
-	layer.confirm('确定删除该管理员？',{
-		btn: ['确定','取消']
-	},function(){
-		$.ajax({
-			url: "<%=request.getContextPath()%>/sys/updateSysUser.do",
-			datatype: 'json',
-			type: "post",
-			data: {
-				id:id,
-				isDeleted:'1'
-			},
-			success: function (data) {
-				if (data.flag == '1' && data.errorCode == '10000') {
-					layer.alert('删除成功！', {
-						icon: 6
-					},function(index){
-						search(parseInt($('.active').attr('jp-data')));
-						layer.close(index);
-					});
-				}else{
-					layer.alert(data.content, {icon: 6});
-				}
-			}
-		});
-	});
-}
+
 </script>
 </body>
 </html>

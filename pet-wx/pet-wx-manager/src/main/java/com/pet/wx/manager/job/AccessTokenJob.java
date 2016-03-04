@@ -10,6 +10,7 @@ import com.pet.wx.common.enums.WxConsts;
 import com.pet.wx.common.utils.Configuration;
 import com.pet.wx.db.dto.AccessTokenDto;
 import com.pet.wx.db.inf.WxClient;
+import com.pet.wx.manager.business.service.WxMetarialService;
 /**
  * 获取access_Token
  * @author Administrator
@@ -20,11 +21,14 @@ public class AccessTokenJob {
 	
 	@Autowired
 	private WxClient wxClient;
+	
+	@Autowired
+	private WxMetarialService wxMetarialService;
 
 	private Logger logger = LoggerFactory.getLogger(AccessTokenJob.class);
 	
-	//轮询过期的订单
 	public void execute() {
+		//获取token
 		String grant_type = WxConsts.TOKEN_GRANT_TYPE;
 		String appid = Configuration.getGlobalMsg("appid");
 		String secret = Configuration.getGlobalMsg("secret");
@@ -32,5 +36,7 @@ public class AccessTokenJob {
 		AccessTokenDto.setAccess_token(jo.get("access_token").getAsString());
 		AccessTokenDto.setExpires_in(jo.get("expires_in").getAsInt());
 		logger.info("access_token = " + jo.get("access_token").getAsString());
+		//同步素材
+		wxMetarialService.syncWxMetarial();
 	}
 }
