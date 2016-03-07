@@ -35,7 +35,7 @@
     	<textarea class="form-control" rows="3" id="disease"></textarea>
   	</div>
     <div style="float: right; margin-bottom: 10px;">
-        <button type="button" class="btn btn-primary" onclick="insertReservation();">增加</button>
+        <button type="button" class="btn btn-primary" onclick="insertReservation();">预约</button>
     </div>
 </form>
 <script type="text/javascript">

@@ -33,20 +33,20 @@
 					</div>
 					<div class="lh35 mb20">
 						<span class="fl wp16 tr">菜单类型：</span>
-						<select class="input-control h35  pl5 pr5 wp80" id="type" name="type" value="${wxMenuInfo.type}">
+						<select class="input-control h35  pl5 pr5 wp80" id="type" name="type">
 							<c:if test="${wxMenuInfo.fid == null || wxMenuInfo.fid == '' }">
 								<option value="">主菜单</option>
 							</c:if>
-							<option value="click">点击推事件</option>
-							<option value="view">跳转URL</option>
-							<option value="scancode_push">扫码推事件</option>
-							<option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
-							<option value="pic_sysphoto">弹出系统拍照发图</option>
-							<option value="pic_photo_or_album">弹出拍照或者相册发图</option>
-							<option value="pic_weixin">弹出微信相册发图器</option>
-							<option value="location_select">弹出地理位置选择器</option>
-							<option value="media_id">下发消息（除文本消息）</option>
-							<option value="view_limited">跳转图文消息URL</option>
+							<option value="click" <c:if test="${wxMenuInfo.type == 'click'}">selected</c:if> >点击推事件</option>
+							<option value="view" <c:if test="${wxMenuInfo.type == 'view'}">selected</c:if>>跳转URL</option>
+							<option value="scancode_push" <c:if test="${wxMenuInfo.type == 'scancode_push'}">selected</c:if>>扫码推事件</option>
+							<option value="scancode_waitmsg" <c:if test="${wxMenuInfo.type == 'scancode_waitmsg'}">selected</c:if>>扫码推事件且弹出“消息接收中”提示框</option>
+							<option value="pic_sysphoto" <c:if test="${wxMenuInfo.type == 'pic_sysphoto'}">selected</c:if>>弹出系统拍照发图</option>
+							<option value="pic_photo_or_album" <c:if test="${wxMenuInfo.type == 'pic_photo_or_album'}">selected</c:if>>弹出拍照或者相册发图</option>
+							<option value="pic_weixin" <c:if test="${wxMenuInfo.type == 'pic_weixin'}">selected</c:if>>弹出微信相册发图器</option>
+							<option value="location_select" <c:if test="${wxMenuInfo.type == 'location_select'}">selected</c:if>>弹出地理位置选择器</option>
+							<option value="media_id" <c:if test="${wxMenuInfo.type == 'media_id'}">selected</c:if>>下发消息（除文本消息）</option>
+							<option value="view_limited" <c:if test="${wxMenuInfo.type == 'view_limited'}">selected</c:if>>跳转图文消息URL</option>
 						</select>
 					</div>
 					<div class="lh35 mb20">
