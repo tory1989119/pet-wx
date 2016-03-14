@@ -12,6 +12,7 @@
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/common.css" />
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/list.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/article.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css">
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	
@@ -39,11 +40,40 @@
 			<div class="griy-bg h20">
 				
 			</div>
-			<h3 class="groom-text">
-			<p>
-			&nbsp;&nbsp;&nbsp;&nbsp;<font size="3px">医院配备了爱德仕全自动五分类血球仪、全自动生化仪、血气分析仪、尿液分析仪、奥林巴斯显微成像系统、DR成像系统、小动物专用彩超、内窥镜、进口呼吸麻醉机、心电图、进口眼压仪、多普勒血压计等先进的诊疗设备，同时在紫金港校区内设有特殊检测技术的实验室。</font><br> 
-			</p>
-			</h3>
+			<div class="article p10 f16">
+				<h2 class="tc">设备设施</h2>
+				<div>医院配备了爱德仕自动五类血球仪、全自动生化仪、血气分析 仪、尿液分析仪、奥林巴斯显微成像系统、DR成像系统、小动物专 用彩超、内窥镜、进口呼吸麻醉机、心电图、进口眼压仪、多普勒血压计等先进的诊疗设备，同时在紫金港校区内设有特殊检测技术的实验室。</div>
+				<ul class="article_img overflow">
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/1.JPG" alt="" style="width: 100px;height: 100px">
+						彩超
+					</li>
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/2.jpg" alt="" style="width: 100px;height: 100px">
+						呼吸麻醉机
+					</li>
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/3.JPG" alt="" style="width: 100px;height: 100px">
+						监护仓
+					</li>
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/4.jpg" alt="" style="width: 100px;height: 100px">
+						内窥镜
+					</li>
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/5.jpeg" alt="" style="width: 100px;height: 100px">
+						B超室
+					</li>
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/6.JPG" alt="" style="width: 100px;height: 100px">
+						dr室
+					</li>
+					<li>
+						<img src="<%=request.getContextPath()%>/images/facility/7.jpeg" alt="" style="width: 100px;height: 100px">
+						X光机
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </body>
