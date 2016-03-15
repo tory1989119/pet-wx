@@ -45,7 +45,7 @@
 				<div>医院配备了爱德仕自动五类血球仪、全自动生化仪、血气分析 仪、尿液分析仪、奥林巴斯显微成像系统、DR成像系统、小动物专 用彩超、内窥镜、进口呼吸麻醉机、心电图、进口眼压仪、多普勒血压计等先进的诊疗设备，同时在紫金港校区内设有特殊检测技术的实验室。</div>
 				<ul class="article_img overflow">
 					<li>
-						<img src="<%=request.getContextPath()%>/images/facility/1.JPG" alt="" style="width: 100px;height: 100px">
+						<img src="<%=request.getContextPath()%>/images/facility/1.jpg" alt="" style="width: 100px;height: 100px">
 						彩超
 					</li>
 					<li>
@@ -53,7 +53,7 @@
 						呼吸麻醉机
 					</li>
 					<li>
-						<img src="<%=request.getContextPath()%>/images/facility/3.JPG" alt="" style="width: 100px;height: 100px">
+						<img src="<%=request.getContextPath()%>/images/facility/3.jpg" alt="" style="width: 100px;height: 100px">
 						监护仓
 					</li>
 					<li>
@@ -65,7 +65,7 @@
 						B超室
 					</li>
 					<li>
-						<img src="<%=request.getContextPath()%>/images/facility/6.JPG" alt="" style="width: 100px;height: 100px">
+						<img src="<%=request.getContextPath()%>/images/facility/6.jpg" alt="" style="width: 100px;height: 100px">
 						dr室
 					</li>
 					<li>
